@@ -48,7 +48,8 @@
       "Bash(done)",
       "Bash(grep -rn 'Ask Sigma' sigma-t*.html sigma-dd*.html)",
       "Bash(grep -rn 'Sigma Agent[^s]' sigma-t*.html sigma-dd*.html)",
-      "Bash(grep -rn 'Ask Sigma' /Users/luke.stanke/Claude/free-trial-flow/sigma-t*.html /Users/luke.stanke/Claude/free-trial-flow/sigma-dd*.html)"
+      "Bash(grep -rn 'Ask Sigma' /Users/luke.stanke/Claude/free-trial-flow/sigma-t*.html /Users/luke.stanke/Claude/free-trial-flow/sigma-dd*.html)",
+      "Bash(gh --version)"
     ]
   }
 }
