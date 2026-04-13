@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Group &amp; summarize — Track 2: Build from Scratch — Sigma</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&family=Roboto:wght@400;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="sigma-modal.css">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --p9:#0059eb;--p8:#3b7ef0;--p6:#9ebef7;--p3:#e4ecfd;--p2:#edf3fe;--p1:#f7fafe;
+  --s1:#fcfcfc;--s2:#f7f7f7;--s3:#f3f3f3;--s4:#eeeeee;--s5:#e5e5e5;--s6:#d3d3d3;--s8:#a7a7a7;--s9:#8c8c8c;--s10:#686868;
+  --t5:#171717;--t4:#505050;--t3:#707070;--t2:#c2c2c2;
+  --success:#46A758;--warning:#EE8A2B;
+  --green:#16a34a;
+  --font:"Source Sans Pro",sans-serif;--r:4px;
+}
+body{font-family:var(--font);color:var(--t5);background:#fff;font-size:14px;line-height:1.5;height:100vh;overflow:hidden;display:flex;flex-direction:column}
+.header{height:48px;background:#fff;border-bottom:1px solid var(--s4);display:flex;align-items:center;justify-content:space-between;padding:0 12px 0 16px;flex-shrink:0;z-index:10}
+.header-left{display:flex;align-items:center;gap:12px}
+.header-right{display:flex;align-items:center;gap:4px}
+.icon-btn{width:32px;height:32px;background:none;border:none;border-radius:var(--r);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--t4)}
+.icon-btn:hover{background:var(--s3)}
+.avatar{width:28px;height:28px;border-radius:50%;background:#1976D2;color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.app-body{display:flex;flex:1;overflow:hidden}
+.left-rail{width:220px;flex-shrink:0;background:#fff;border-right:1px solid var(--s4);display:flex;flex-direction:column;padding:12px 8px;gap:2px;overflow-y:auto}
+.create-btn{display:flex;align-items:center;gap:8px;background:var(--p9);color:#fff;border:none;border-radius:var(--r);padding:0 14px;height:36px;font-family:var(--font);font-size:14px;font-weight:600;cursor:pointer;width:100%;margin-bottom:8px}
+.create-btn:hover{background:var(--p8)}
+.nav-item{display:flex;align-items:center;gap:8px;height:32px;padding:0 8px;border-radius:var(--r);cursor:pointer;color:var(--t4);font-size:14px;font-weight:400;transition:background .1s;text-decoration:none}
+.nav-item:hover{background:var(--s2)}
+.nav-item[data-active="true"]{background:var(--p2);color:var(--p9);font-weight:600}
+.rail-divider{height:1px;background:var(--s4);margin:6px 4px}
+.main{flex:1;overflow-y:auto;background:var(--s1)}
+.lesson-wrap{display:grid;grid-template-columns:1fr 280px;min-height:100%;align-items:start}
+.lesson-content{padding:32px 40px 60px}
+.breadcrumb{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--t3);margin-bottom:20px}
+.breadcrumb a{color:var(--p9);text-decoration:none}
+.breadcrumb a:hover{text-decoration:underline}
+.breadcrumb-sep{color:var(--s6)}
+.track-badge{display:inline-flex;align-items:center;gap:6px;background:#f0fdf4;color:#16a34a;border-radius:999px;padding:3px 10px;font-size:12px;font-weight:600;margin-bottom:12px}
+.lesson-title{font-size:26px;font-weight:700;line-height:1.25;margin-bottom:6px}
+.lesson-subtitle{font-size:15px;color:var(--t3);margin-bottom:28px}
+.ai-banner{background:linear-gradient(135deg,var(--p1) 0%,#f0e8ff 100%);border:1px solid var(--p3);border-radius:8px;padding:14px 18px;display:flex;align-items:flex-start;gap:12px;margin-bottom:28px}
+.ai-banner-icon{width:32px;height:32px;background:var(--p9);border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#fff}
+.ai-banner-text{font-size:13px;color:var(--t4);line-height:1.55}
+.ai-banner-text strong{color:var(--t5)}
+.video-placeholder{width:100%;aspect-ratio:16/9;background:var(--s3);border:1px solid var(--s5);border-radius:var(--r);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;cursor:pointer;margin-bottom:36px}
+.video-play-btn{width:56px;height:56px;background:var(--p9);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,89,235,.35)}
+.video-label{font-size:14px;font-weight:600;color:var(--t4)}
+.video-duration{font-size:12px;color:var(--t3)}
+.step-section{margin-bottom:36px;border-top:1px solid var(--s4);padding-top:28px}
+.step-label{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#16a34a;margin-bottom:6px}
+.step-title{font-size:20px;font-weight:700;margin-bottom:10px;line-height:1.3}
+.step-body{font-size:15px;color:var(--t4);line-height:1.65;margin-bottom:16px}
+.step-body p{margin-bottom:10px}
+.step-body p:last-child{margin-bottom:0}
+.step-body ul{padding-left:20px;display:flex;flex-direction:column;gap:6px;margin:8px 0}
+.step-body strong{color:var(--t5)}
+.callout{background:#f0fdf4;border:1px solid #b8e9c4;border-left:3px solid #16a34a;border-radius:var(--r);padding:12px 16px;font-size:14px;color:var(--t4);margin-bottom:18px;line-height:1.6}
+.callout strong{color:var(--t5)}
+.callout-blue{background:var(--p1);border:1px solid var(--p3);border-left:3px solid var(--p9);border-radius:var(--r);padding:12px 16px;font-size:14px;color:var(--t4);margin-bottom:18px;line-height:1.6}
+.callout-blue strong{color:var(--t5)}
+.callout-warn{background:#fff8f0;border:1px solid #f5d0a0;border-left:3px solid var(--warning);border-radius:var(--r);padding:12px 16px;font-size:14px;color:var(--t4);margin-bottom:18px;line-height:1.6}
+.lesson-nav{display:flex;align-items:center;justify-content:space-between;margin-top:40px;padding-top:24px;border-top:1px solid var(--s4)}
+.lesson-nav-btn{display:flex;align-items:center;gap:8px;background:none;border:1px solid var(--s5);border-radius:var(--r);padding:10px 16px;font-family:var(--font);font-size:14px;font-weight:600;color:var(--p9);cursor:pointer;text-decoration:none}
+.lesson-nav-btn:hover{background:var(--p1);border-color:var(--p6)}
+.lesson-nav-btn.next{flex-direction:row-reverse}
+.nav-text{display:flex;flex-direction:column}
+.nav-sub{font-size:12px;color:var(--t3);font-weight:400}
+.lesson-nav-btn.next .nav-text{align-items:flex-end}
+.feedback{margin-top:32px;padding:18px 20px;background:#fff;border:1px solid var(--s4);border-radius:var(--r);display:flex;align-items:center;gap:16px}
+.feedback-label{font-size:14px;font-weight:600;color:var(--t4);flex:1}
+.feedback-btns{display:flex;gap:6px}
+.fb-btn{display:flex;align-items:center;gap:6px;background:none;border:1px solid var(--s5);border-radius:var(--r);padding:6px 12px;font-family:var(--font);font-size:13px;color:var(--t4);cursor:pointer}
+.fb-btn:hover{background:var(--s2)}
+.fb-btn.yes{background:#f0fdf4;border-color:#b8e9c4;color:#16a34a}
+.lesson-sidebar{background:#fff;border-left:1px solid var(--s4);padding:28px 20px 40px;position:sticky;top:0;height:calc(100vh - 48px);overflow-y:auto;display:flex;flex-direction:column;gap:0}
+.sidebar-label{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--t3);margin-bottom:12px}
+.prog-block{margin-bottom:20px}
+.prog-stats{font-size:13px;color:var(--t4);margin-bottom:7px;display:flex;justify-content:space-between}
+.prog-track{width:100%;height:5px;background:var(--s4);border-radius:999px;overflow:hidden}
+.prog-fill{height:100%;background:#16a34a;border-radius:999px}
+.toc-divider{height:1px;background:var(--s4);margin:10px 0}
+.toc-list{display:flex;flex-direction:column;gap:1px}
+.toc-item{display:flex;align-items:flex-start;gap:9px;padding:6px 8px;border-radius:var(--r);cursor:pointer;transition:background .1s;text-decoration:none;color:inherit}
+.toc-item:hover{background:var(--s2)}
+.toc-item[data-current="true"]{background:#f0fdf4}
+.toc-icon{width:18px;height:18px;flex-shrink:0;margin-top:1px}
+.toc-right{min-width:0}
+.toc-title{font-size:13px;color:var(--t4);line-height:1.4}
+.toc-item[data-current="true"] .toc-title{font-weight:600;color:#16a34a}
+.toc-dur{font-size:11px;color:var(--t3);margin-top:2px}
+.sidebar-link{margin-top:16px;font-size:13px;color:var(--p9);text-decoration:none;display:flex;align-items:center;gap:5px}
+.sidebar-link:hover{text-decoration:underline}
+</style>
+</head>
+<body data-lesson="t2-l06">
+
+<header class="header">
+  <div class="header-left">
+    <a href="sigma-home.html" aria-label="Sigma home">
+      <svg width="74" height="24" viewBox="0 0 104 32" fill="none"><path d="M14.4523 15.3524L0 0.833252L21.4587 7.77987L14.4523 15.3524Z" fill="#171717"/><path d="M15.2997 16.1905L26.9131 30.6246L22.2956 8.60604L15.2997 16.1905Z" fill="#171717"/><path d="M25.4971 30.751L9.08954 23.5399L19.6969 23.5435L25.4971 30.751Z" fill="#171717"/><path d="M27.84 0.988769L22.4184 6.85587L17.1924 5.16107L27.84 0.988769Z" fill="#171717"/><path d="M25.9213 4.64943L28.9927 1.49197L34.2844 4.80138L25.9213 4.64943Z" fill="#171717"/><path d="M47.7862 9.6079C48.8888 9.6079 49.7826 8.66864 49.7826 7.51C49.7826 6.35137 48.8888 5.41211 47.7862 5.41211C46.6837 5.41211 45.7899 6.35137 45.7899 7.51C45.7899 8.66864 46.6837 9.6079 47.7862 9.6079Z" fill="#171717"/><path d="M89.5356 16.7473V24.3486H86.2425V17.0082C86.2425 14.8323 85.1254 13.7586 83.5789 13.7586C81.6604 13.7586 80.4576 15.2093 80.601 17.6465L80.5722 17.5305V24.3486H77.2493V17.0082C77.2493 14.8323 76.1326 13.7586 74.7007 13.7586C73.1543 13.7586 71.6079 14.629 71.6079 17.2115V24.3486H68.285V10.7991H71.6079V13.1203C72.0945 11.4086 73.9277 10.5068 75.5866 10.5068C77.5339 10.5068 79.1376 11.437 79.9106 13.1761C80.3367 12.3479 80.9845 11.6583 81.7798 11.1861C82.5751 10.714 83.4857 10.4785 84.407 10.5068C87.7596 10.509 89.5356 12.8013 89.5356 16.7473Z" fill="#171717"/><path fill-rule="evenodd" clip-rule="evenodd" d="M65.5838 22.4329V10.7992L62.3409 10.7966V12.5684C61.4184 11.1757 59.6572 10.5082 57.9801 10.5082C54.5413 10.5082 51.5783 13.2068 51.5783 17.5589C51.5783 21.8818 54.5693 24.638 58.0081 24.638C59.6013 24.638 61.4184 23.9416 62.3409 22.5494V22.7523C62.3409 26.6109 60.7757 28.1197 58.2595 28.1197C57.5338 28.1103 56.8246 27.8998 56.2086 27.5111C55.5927 27.1224 55.0935 26.5703 54.7652 25.9146L52.0815 27.1912C52.6241 28.3862 53.4957 29.3971 54.5916 30.1023C55.6876 30.8074 56.9612 31.177 58.2595 31.1664C62.7322 31.1664 65.5838 28.5259 65.5838 22.4329ZM62.0113 16.0522C62.1978 16.5221 62.2908 17.0246 62.285 17.531C62.3014 18.0433 62.2159 18.5537 62.0337 19.0319C61.8515 19.5102 61.5761 19.9465 61.2241 20.3149C60.872 20.6832 60.4504 20.976 59.9844 21.1758C59.5183 21.3757 59.0174 21.4786 58.5113 21.4783C56.4983 21.4783 54.8491 19.7954 54.8491 17.5323C54.8291 17.0312 54.9087 16.5312 55.0835 16.062C55.2582 15.5928 55.5243 15.164 55.8661 14.8012C56.2078 14.4384 56.6181 14.149 57.0726 13.9503C57.527 13.7515 58.0163 13.6475 58.5113 13.6444C59.0116 13.6468 59.5065 13.7494 59.9674 13.9464C60.4284 14.1435 60.8463 14.431 61.1971 14.7924C61.5479 15.1538 61.8246 15.582 62.0113 16.0522Z" fill="#171717"/><path d="M49.4591 10.7992H46.1363V24.3487H49.4591V10.7992Z" fill="#171717"/><path d="M36.1091 20.144H32.8076C32.8684 23.045 35.6867 24.6698 38.5037 24.6711C41.3806 24.6711 44.2579 23.2191 44.2579 20.463C44.2579 19.2151 43.6826 17.3006 40.5027 16.517L38.2291 15.9367C37.4115 15.7626 36.715 15.3564 36.715 14.6601C36.715 13.8189 37.4719 13.2386 38.5623 13.2386C39.5618 13.2386 40.4402 13.8189 40.4402 14.7761H43.8019C43.8325 11.7298 40.9854 10.54 38.4714 10.54C35.382 10.54 33.2016 12.397 33.2016 14.5152C33.2016 16.2277 34.0192 17.8516 37.1995 18.664L39.0773 19.1283C40.1372 19.3604 40.7431 19.7099 40.7431 20.463C40.7431 21.3334 39.8342 21.9424 38.4412 21.9424C36.9573 21.9424 36.1091 21.0742 36.1091 20.144Z" fill="#171717"/><path fill-rule="evenodd" clip-rule="evenodd" d="M104 24.3488V16.2536C104 12.5397 101.437 10.5087 97.9204 10.5078C95.4668 10.5078 93.2042 11.4943 92.1138 12.9743L93.9129 14.8892C94.5945 14.048 96.0937 13.4385 97.7023 13.4385C99.5832 13.4385 100.728 14.6283 100.728 16.3399V17.1523C99.4592 16.5097 98.0577 16.1816 96.639 16.1951C93.6947 16.1951 91.3775 17.7034 91.3775 20.4307C91.3775 22.9849 93.3677 24.6389 96.1484 24.6389C97.9204 24.6389 99.8289 23.7973 100.728 22.5499V24.3488H104ZM100.728 19.4163V19.9674C99.9378 21.1572 98.2204 21.8823 96.7754 21.8832C95.3597 21.8832 94.4852 21.2475 94.4852 20.2885C94.4852 19.3295 95.385 18.5167 97.2117 18.5167C98.4411 18.5022 99.653 18.8123 100.728 19.4163Z" fill="#171717"/></svg>
+    </a>
+    <button class="icon-btn" aria-label="Search"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="4.5" stroke="currentColor" stroke-width="1.5"/><path d="M10.5 10.5L13 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
+  </div>
+  <div class="header-right">
+    <button class="icon-btn"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 0 1 4 4v3l1 1.5H3L4 9V6a4 4 0 0 1 4-4Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M6.5 13.5a1.5 1.5 0 0 0 3 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
+    <div class="avatar">LS</div>
+  </div>
+</header>
+
+<div class="app-body">
+  <nav class="left-rail">
+    <button class="create-btn"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Create new</button>
+    <a href="sigma-home.html" class="nav-item" style="color:var(--t4)"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 6.5L8 2l6 4.5V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6.5Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>Home</a>
+    <div class="nav-item"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 4a1 1 0 0 1 1-1h3.5l1.5 2H13a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>Documents</div>
+    <div class="rail-divider"></div>
+    <a href="sigma-hub.html" class="nav-item" data-active="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1l2 5h5l-4 3 1.5 5L8 11.5 3.5 14 5 9 1 6h5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>Free Trial Guide</a>
+    <div class="rail-divider"></div>
+    <div class="nav-item"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><ellipse cx="8" cy="5" rx="5" ry="2.5" stroke="currentColor" stroke-width="1.5"/><path d="M3 5v6c0 1.38 2.24 2.5 5 2.5S13 12.38 13 11V5" stroke="currentColor" stroke-width="1.5"/></svg>Connections</div>
+    <div class="nav-item"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.5"/></svg>Administration</div>
+  </nav>
+
+  <main class="main">
+    <div class="lesson-wrap">
+      <div class="lesson-content">
+        <nav class="breadcrumb">
+          <a href="sigma-hub.html">Free Trial Guide</a>
+          <span class="breadcrumb-sep"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M4.5 2.5l3 3.5-3 3.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <a href="sigma-track2.html">Track 2: Build from Scratch</a>
+          <span class="breadcrumb-sep"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M4.5 2.5l3 3.5-3 3.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <span>Group &amp; summarize</span>
+        </nav>
+
+        <div class="track-badge">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="2" y="2" width="10" height="10" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M2 5.5h10M5.5 5.5V12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          Track 2 — Build from Scratch
+        </div>
+
+        <h1 class="lesson-title">Group &amp; summarize</h1>
+        <p class="lesson-subtitle">Group your table by dimensions and add aggregate measures to turn row-level data into summaries.</p>
+
+        <div class="ai-banner">
+          <div class="ai-banner-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2l1.5 4H14l-3.5 2.5 1.5 4L8 10 4 12.5l1.5-4L2 6h4.5z" fill="white"/></svg></div>
+          <div class="ai-banner-text"><strong>Sigma Assistant can do this for you.</strong> Every step in this track can also be completed by describing what you want in the Sigma Assistant panel. Try it alongside the manual steps to see both approaches.</div>
+        </div>
+
+        <div class="video-placeholder">
+          <div class="video-play-btn"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M7 4.5L17 11 7 17.5V4.5Z" fill="white"/></svg></div>
+          <span class="video-label">Group and summarize (5 min)</span>
+          <span class="video-duration">Group by · Sum/Count · Multi-level grouping</span>
+        </div>
+
+        <div class="step-section">
+          <div class="step-label">Step 1</div>
+          <h2 class="step-title">Group by a column</h2>
+          <div class="step-body">
+            <p>Right-click any column header → <strong>Group</strong>. This collapses the table to show one row per unique value in that column. The grouped column appears in bold at the top of the column list.</p>
+          </div>
+        </div>
+
+        <div class="step-section">
+          <div class="step-label">Step 2</div>
+          <h2 class="step-title">Add a measure</h2>
+          <div class="step-body">
+            <p>After grouping, right-click a numeric column → <strong>Aggregate → Sum</strong> (or Count, Average, Min, Max). The column is now an aggregated measure calculated per group.</p>
+          </div>
+        </div>
+
+        <div class="step-section">
+          <div class="step-label">Step 3</div>
+          <h2 class="step-title">Multi-level grouping</h2>
+          <div class="step-body">
+            <p>Group by Region, then group by Product Category inside that — creating a two-level hierarchy. Expand and collapse groups to drill up and down through your data.</p>
+          </div>
+        </div>
+
+        <div class="step-section">
+          <div class="step-label">Step 4</div>
+          <h2 class="step-title">Add a calculated aggregate</h2>
+          <div class="step-body">
+            <p>Use the formula bar to add a custom aggregation. For example: <strong>Sum([Revenue]) / CountDistinct([Customer Id])</strong> gives you average revenue per customer.</p>
+          </div>
+          <div class="callout"><strong>Warehouse-native grouping:</strong> When you group a table, Sigma translates it into a SQL GROUP BY. The warehouse does the computation — so this works on billions of rows just as fast as thousands.</div>
+        </div>
+
+        <div class="callout-blue"><strong>Build with Sigma Assistant —</strong> Open Sigma Assistant and type "Group this table by product category and show total revenue and order count" — it builds the grouped table instantly.</div>
+
+        <div class="lesson-nav">
+          <a href="sigma-t2-l11.html" class="lesson-nav-btn prev">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <div class="nav-text"><span class="nav-sub">Previous</span><span>Target and exclude controls</span></div>
+          </a>
+          <button class="mark-complete-btn" type="button">Mark as complete</button>
+          <a href="sigma-t2-l04.html" class="lesson-nav-btn next">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <div class="nav-text"><span class="nav-sub">Next</span><span>Date functions and running totals</span></div>
+          </a>
+        </div>
+
+        <div class="feedback">
+          <span class="feedback-label">Was this lesson helpful?</span>
+          <div class="feedback-btns">
+            <button class="fb-btn yes">👍 Yes</button>
+            <button class="fb-btn">👎 No</button>
+          </div>
+        </div>
+      </div>
+
+      <aside class="lesson-sidebar">
+  <p class="sidebar-label">Track 2 — Build from Scratch</p>
+  <div class="prog-block">
+    <div class="prog-stats"><span>0 of 13 complete</span><span style="font-weight:600;color:#16a34a">0%</span></div>
+    <div class="prog-track"><div class="prog-fill" style="width:0%"></div></div>
+  </div>
+  <div class="toc-divider"></div>
+  <div class="toc-list">
+    <div class="toc-section">Connect to Data</div>
+    <a href="sigma-t2-l01.html" class="toc-item">
+      <svg class="toc-icon" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="8" stroke="#d3d3d3" stroke-width="1.5" stroke-dasharray="3 2"/></svg>
+      <div class="toc-right"><div class="toc-title">Connect to a data source</div><div class="toc-dur">6 min</div></div>
+    </a>
+    <a href="sigma-t2-l10.html" class="toc-item">
+      <svg class="toc-icon" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="8" stroke="#d3d3d3" stroke-width="1.5" stroke-dasharray="3 2"/></svg>
+      <div class="toc-right"><div class="toc-title">Data source types and custom SQL</div><div class="toc-dur">6 min</div></div>
+    </a>
+    <div class="toc-section">Sigma Assistant</div>
+    <a href="sigma-t2-l09.html" class="toc-item">
+      <svg class="toc-icon" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="8" stroke="#d3d3d3" stroke-width="1.5" stroke-dasharray="3 2"/></svg>
+      <div class="toc-right"><div class="toc-title">Build with Sigma Assistant</div><div class="toc-dur">5 min</div></div>
+    </a>
+    <div class="toc-section">Filter &amp; Control</div>
+    <a href="sigma-t2-l02.html" class="toc-item">
+      <svg class="toc-icon" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="8" stroke="#d3d3d3" stroke-width="1.5" stroke-dasharray="3 2"/></svg>
+      <div class="toc-right"><div class="toc-title">Filter &amp; control</div><div class="toc-dur">5 min</div></div>
+    </a>
+    <a href="sigma-t2-l11.html" class="toc-item">
+      <svg class="toc-icon" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="8" stroke="#d3d3d3" stroke-width="1.5" stroke-dasharray="3 2"/></svg>
+      <div class="toc-right"><div class="toc-title">Target and exclude controls</div><div class="toc-dur">4 min</div></div>
+    </a>
+    <div class="toc-section">Group &amp; Summarize</div>
+    <a href="sigma-t2-l03.html" class="toc-item" data-current="true">
+      <svg class="toc-icon" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="8" stroke="#16a34a" stroke-width="1.5" stroke-dasharray="3 2"/></svg>
+      <div class="toc-right"><div class="toc-title">Group &amp; summarize</div><div class="toc-dur">5 min</div></div>
+    </a>
+    <div class="toc-section">Date Functions</div>
+    <a href="sigma-t2-l04.html" class="toc-item">
+      <svg class="toc-icon" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="8" stroke="#d3d3d3" stroke-width="1.5" stroke-dasharray="3 2"/></svg>
+      <div class="toc-right"><div class="toc-title">Date functions and running totals</div><div class="toc-dur">6 min</div></div>
+    </a>
+    <div class="toc-section">Visualizations</div>
+    <a href="sigma-t2-l05.html" class="toc-item">
+      <svg class="toc-icon" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="8" stroke="#d3d3d3" stroke-width="1.5" stroke-dasharray="3 2"/></svg>
+      <div class="toc-right"><div class="toc-title">Add a KPI element</div><div class="toc-dur">4 min</div></div>
+    </a>
+    <a href="sigma-t2-l06.html" class="toc-item">
+      <svg class="toc-icon" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="8" stroke="#d3d3d3" stroke-width="1.5" stroke-dasharray="3 2"/></svg>
+      <div class="toc-right"><div class="toc-title">Bar chart and formatting</div><div class="toc-dur">5 min</div></div>
+    </a>
+    <a href="sigma-t2-l12.html" class="toc-item">
+      <svg class="toc-icon" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="8" stroke="#d3d3d3" stroke-width="1.5" stroke-dasharray="3 2"/></svg>
+      <div class="toc-right"><div class="toc-title">Conditional formatting for tables</div><div class="toc-dur">5 min</div></div>
+    </a>
+    <a href="sigma-t2-l13.html" class="toc-item">
+      <svg class="toc-icon" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="8" stroke="#d3d3d3" stroke-width="1.5" stroke-dasharray="3 2"/></svg>
+      <div class="toc-right"><div class="toc-title">Combo chart</div><div class="toc-dur">5 min</div></div>
+    </a>
+    <div class="toc-section">Input Tables</div>
+    <a href="sigma-t2-l07.html" class="toc-item">
+      <svg class="toc-icon" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="8" stroke="#d3d3d3" stroke-width="1.5" stroke-dasharray="3 2"/></svg>
+      <div class="toc-right"><div class="toc-title">Linked Input Tables</div><div class="toc-dur">6 min</div></div>
+    </a>
+    <div class="toc-section">Sigma Agents</div>
+    <a href="sigma-t2-l14.html" class="toc-item">
+      <svg class="toc-icon" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="8" stroke="#d3d3d3" stroke-width="1.5" stroke-dasharray="3 2"/></svg>
+      <div class="toc-right"><div class="toc-title">Sigma Agents</div><div class="toc-dur">5 min</div></div>
+    </a>
+  </div>
+  <div class="toc-divider"></div>
+  <a href="https://help.sigmacomputing.com/docs" target="_blank" class="sidebar-link">
+    <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5" stroke="currentColor" stroke-width="1.3"/><path d="M4.5 5.5a2 2 0 0 1 4 .5c0 1.5-2 1.5-2 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><circle cx="6.5" cy="10" r=".6" fill="currentColor"/></svg>
+    Sigma documentation
+  </a>
+      </aside>
+    </div>
+  </main>
+</div>
+<script src="sigma-trial.js"></script>
+</body>
+</html>

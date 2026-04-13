@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Build Your First Workbook — Free Trial Guide — Sigma</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&family=Roboto:wght@400;600&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --colors-primary9: #0059eb;
+    --colors-primary8: #3b7ef0;
+    --colors-primary7: #81aaf5;
+    --colors-primary6: #9ebef7;
+    --colors-primary5: #c6d8fb;
+    --colors-primary3: #e4ecfd;
+    --colors-primary2: #edf3fe;
+    --colors-primary1: #f7fafe;
+
+    --colors-surface1: #fcfcfc;
+    --colors-surface2: #f7f7f7;
+    --colors-surface3: #f3f3f3;
+    --colors-surface4: #eeeeee;
+    --colors-surface5: #e5e5e5;
+    --colors-surface6: #d3d3d3;
+    --colors-surface8: #a7a7a7;
+    --colors-surface9: #8c8c8c;
+    --colors-surface10: #686868;
+
+    --colors-text5: #171717;
+    --colors-text4: #505050;
+    --colors-text3: #707070;
+    --colors-text2: #c2c2c2;
+
+    --colors-success: #46A758;
+    --colors-warning: #EE8A2B;
+
+    --colors-backgroundCanvas: #ffffff;
+
+    --shadows-low: 0px 0px 8px 0px rgba(0,0,0,.15), 0px 4px 4px 0px rgba(0,0,0,.05), 4px 0px 4px 0px rgba(0,0,0,.05);
+
+    --space-unit: 4px;
+    --borderRadius-button: 4px;
+    --borderRadius-card: 4px;
+
+    --font-primary: "Source Sans Pro", sans-serif;
+    --font-data: "Roboto", sans-serif;
+  }
+
+  body {
+    font-family: var(--font-primary);
+    color: var(--colors-text5);
+    background: var(--colors-backgroundCanvas);
+    font-size: 14px;
+    line-height: 1.5;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── Header ── */
+  .header {
+    height: 48px;
+    background: #fff;
+    border-bottom: 1px solid var(--colors-surface4);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 12px 0 16px;
+    flex-shrink: 0;
+    z-index: 10;
+  }
+  .header-left { display: flex; align-items: center; gap: 12px; }
+  .header-right { display: flex; align-items: center; gap: 4px; }
+
+  .icon-btn {
+    width: 32px; height: 32px;
+    background: none; border: none;
+    border-radius: var(--borderRadius-button);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    color: var(--colors-text4);
+    transition: background 0.1s;
+  }
+  .icon-btn:hover { background: var(--colors-surface3); }
+
+  .avatar {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: #1976D2;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    font-family: var(--font-primary);
+    letter-spacing: 0.02em;
+    flex-shrink: 0;
+  }
+
+  /* ── Body ── */
+  .app-body {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+  }
+
+  /* ── Left Rail ── */
+  .left-rail {
+    width: 220px;
+    flex-shrink: 0;
+    background: #fff;
+    border-right: 1px solid var(--colors-surface4);
+    display: flex;
+    flex-direction: column;
+    padding: 12px 8px;
+    gap: 2px;
+    overflow-y: auto;
+  }
+
+  .create-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--colors-primary9);
+    color: #fff;
+    border: none;
+    border-radius: var(--borderRadius-button);
+    padding: 0 14px;
+    height: 36px;
+    font-family: var(--font-primary);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    margin-bottom: 8px;
+    transition: background 0.1s;
+  }
+  .create-btn:hover { background: var(--colors-primary8); }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 32px;
+    padding: 0 8px;
+    border-radius: var(--borderRadius-button);
+    cursor: pointer;
+    color: var(--colors-text4);
+    font-size: 14px;
+    font-weight: 400;
+    transition: background 0.1s;
+    user-select: none;
+    position: relative;
+  }
+  .nav-item:hover { background: var(--colors-surface2); }
+  .nav-item[data-active="true"] {
+    background: var(--colors-primary2);
+    color: var(--colors-primary9);
+    font-weight: 600;
+  }
+  .nav-item svg { flex-shrink: 0; }
+
+  .rail-divider {
+    height: 1px;
+    background: var(--colors-surface4);
+    margin: 6px 4px;
+  }
+
+  .beta-badge {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    background: var(--colors-primary3);
+    color: var(--colors-primary9);
+    border-radius: 999px;
+    padding: 1px 5px;
+    line-height: 1.4;
+  }
+
+  /* ── Main scroll area ── */
+  .main {
+    flex: 1;
+    overflow-y: auto;
+    background: var(--colors-surface1);
+  }
+
+  /* ── Two-column lesson layout ── */
+  .lesson-wrap {
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    gap: 0;
+    min-height: 100%;
+    align-items: start;
+  }
+
+  /* ── Left content column ── */
+  .lesson-content {
+    padding: 32px 40px 60px 40px;
+    min-width: 0;
+  }
+
+  /* Breadcrumb */
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--colors-text3);
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+  .breadcrumb a {
+    color: var(--colors-primary9);
+    text-decoration: none;
+    font-weight: 400;
+  }
+  .breadcrumb a:hover { text-decoration: underline; }
+  .breadcrumb-sep { color: var(--colors-surface6); }
+
+  /* Page title */
+  .lesson-title {
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--colors-text5);
+    line-height: 1.25;
+    margin-bottom: 24px;
+  }
+
+  /* Video placeholder */
+  .video-placeholder {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: var(--colors-surface3);
+    border: 1px solid var(--colors-surface5);
+    border-radius: var(--borderRadius-card);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    color: var(--colors-text3);
+    margin-bottom: 36px;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .video-placeholder:hover { background: var(--colors-surface4); }
+  .video-play-btn {
+    width: 56px; height: 56px;
+    background: var(--colors-primary9);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(0,89,235,0.35);
+  }
+  .video-label { font-size: 14px; font-weight: 600; color: var(--colors-text4); }
+  .video-duration { font-size: 12px; color: var(--colors-text3); }
+
+  /* Step sections */
+  .step-section {
+    margin-bottom: 40px;
+    border-top: 1px solid var(--colors-surface4);
+    padding-top: 32px;
+  }
+  .step-section:first-of-type { border-top: none; padding-top: 0; }
+
+  .step-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--colors-primary9);
+    margin-bottom: 6px;
+  }
+
+  .step-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--colors-text5);
+    margin-bottom: 12px;
+    line-height: 1.3;
+  }
+
+  .step-description {
+    font-size: 15px;
+    color: var(--colors-text4);
+    line-height: 1.65;
+    margin-bottom: 20px;
+  }
+  .step-description p { margin-bottom: 12px; }
+  .step-description p:last-child { margin-bottom: 0; }
+
+  .step-description code {
+    font-family: var(--font-data);
+    font-size: 13px;
+    background: var(--colors-surface3);
+    border: 1px solid var(--colors-surface5);
+    border-radius: 3px;
+    padding: 1px 5px;
+    color: var(--colors-text5);
+  }
+
+  .step-description ul {
+    padding-left: 20px;
+    margin: 8px 0 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .step-description li { color: var(--colors-text4); }
+
+  /* Try it in Sigma CTA button */
+  .try-sigma-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--colors-primary9);
+    color: #fff;
+    border: none;
+    border-radius: var(--borderRadius-button);
+    padding: 0 16px;
+    height: 36px;
+    font-family: var(--font-primary);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.1s;
+    text-decoration: none;
+    margin-bottom: 20px;
+  }
+  .try-sigma-btn:hover { background: var(--colors-primary8); }
+
+  /* Info callout box */
+  .callout {
+    background: var(--colors-primary1);
+    border: 1px solid var(--colors-primary3);
+    border-left: 3px solid var(--colors-primary9);
+    border-radius: var(--borderRadius-card);
+    padding: 12px 16px;
+    font-size: 14px;
+    color: var(--colors-text4);
+    margin-bottom: 20px;
+    line-height: 1.6;
+  }
+  .callout strong { color: var(--colors-text5); }
+
+  /* Screenshot placeholder */
+  .screenshot-placeholder {
+    width: 100%;
+    background: var(--colors-surface3);
+    border: 1px solid var(--colors-surface5);
+    border-radius: var(--borderRadius-card);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 200px;
+    color: var(--colors-text3);
+    font-size: 13px;
+    margin-bottom: 20px;
+    gap: 8px;
+  }
+
+  /* ── Prev / Next navigation ── */
+  .lesson-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 40px;
+    padding-top: 28px;
+    border-top: 1px solid var(--colors-surface4);
+  }
+  .lesson-nav-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: none;
+    border: 1px solid var(--colors-surface5);
+    border-radius: var(--borderRadius-button);
+    padding: 10px 16px;
+    font-family: var(--font-primary);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--colors-primary9);
+    cursor: pointer;
+    transition: background 0.1s, border-color 0.1s;
+  }
+  .lesson-nav-btn:hover { background: var(--colors-primary1); border-color: var(--colors-primary6); }
+  .lesson-nav-btn.next { flex-direction: row-reverse; }
+  .lesson-nav-sub {
+    font-size: 12px;
+    color: var(--colors-text3);
+    font-weight: 400;
+    display: block;
+    text-align: left;
+    margin-bottom: 2px;
+  }
+  .lesson-nav-btn.next .lesson-nav-sub { text-align: right; }
+  .lesson-nav-text { display: flex; flex-direction: column; }
+  .lesson-nav-btn.next .lesson-nav-text { align-items: flex-end; }
+
+  /* ── Feedback widget ── */
+  .feedback-widget {
+    margin-top: 36px;
+    padding: 20px;
+    background: #fff;
+    border: 1px solid var(--colors-surface4);
+    border-radius: var(--borderRadius-card);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .feedback-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--colors-text4);
+    flex: 1;
+  }
+  .feedback-btns { display: flex; gap: 6px; }
+  .feedback-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: none;
+    border: 1px solid var(--colors-surface5);
+    border-radius: var(--borderRadius-button);
+    padding: 6px 12px;
+    font-family: var(--font-primary);
+    font-size: 13px;
+    color: var(--colors-text4);
+    cursor: pointer;
+    transition: background 0.1s, border-color 0.1s, color 0.1s;
+  }
+  .feedback-btn:hover { background: var(--colors-surface2); border-color: var(--colors-surface6); }
+  .feedback-btn.active-yes { background: var(--colors-primary1); border-color: var(--colors-primary6); color: var(--colors-primary9); }
+  .feedback-btn.active-no { background: #fff5f5; border-color: #f5c0b8; color: #c0392b; }
+
+  /* ── Right Sidebar ── */
+  .lesson-sidebar {
+    background: #fff;
+    border-left: 1px solid var(--colors-surface4);
+    padding: 32px 20px 40px;
+    position: sticky;
+    top: 0;
+    height: calc(100vh - 48px);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .sidebar-section-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--colors-text3);
+    margin-bottom: 12px;
+  }
+
+  /* Progress indicator */
+  .progress-block {
+    margin-bottom: 24px;
+  }
+  .progress-stats {
+    font-size: 13px;
+    color: var(--colors-text4);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .progress-bar-track {
+    width: 100%;
+    height: 6px;
+    background: var(--colors-surface4);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: var(--colors-success);
+    border-radius: 999px;
+    transition: width 0.3s;
+  }
+
+  /* TOC lesson list */
+  .toc-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .toc-divider {
+    height: 1px;
+    background: var(--colors-surface4);
+    margin: 10px 0;
+  }
+
+  .toc-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 7px 8px;
+    border-radius: var(--borderRadius-button);
+    cursor: pointer;
+    transition: background 0.1s;
+  }
+  .toc-item:hover { background: var(--colors-surface2); }
+  .toc-item[data-current="true"] { background: var(--colors-primary1); }
+
+  .toc-icon {
+    width: 18px; height: 18px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* Completion states */
+  .toc-icon-done { color: var(--colors-success); }
+  .toc-icon-current { color: var(--colors-primary9); }
+  .toc-icon-todo { color: var(--colors-surface6); }
+
+  .toc-item-right { min-width: 0; }
+  .toc-item-title {
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--colors-text4);
+    line-height: 1.4;
+  }
+  .toc-item[data-current="true"] .toc-item-title {
+    font-weight: 600;
+    color: var(--colors-primary9);
+  }
+  .toc-item[data-done="true"] .toc-item-title {
+    color: var(--colors-text3);
+  }
+  .toc-item-meta {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 2px;
+  }
+  .toc-item-tag {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--colors-primary8);
+    background: var(--colors-primary2);
+    border-radius: 999px;
+    padding: 1px 6px;
+  }
+  .toc-item-tag.tag-video {
+    color: #6b3fa0;
+    background: #f3eaff;
+  }
+
+  .toc-item-duration {
+    font-size: 11px;
+    color: var(--colors-text3);
+    margin-top: 3px;
+  }
+
+  /* Sidebar helper link */
+  .sidebar-help-link {
+    margin-top: 20px;
+    font-size: 13px;
+    color: var(--colors-primary9);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .sidebar-help-link:hover { text-decoration: underline; }
+
+  /* Expandable TOC section header */
+  .toc-section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 16px;
+    margin-bottom: 4px;
+    padding: 4px 8px;
+    cursor: pointer;
+    border-radius: var(--borderRadius-button);
+    transition: background 0.1s;
+  }
+  .toc-section-header:hover { background: var(--colors-surface2); }
+  .toc-section-name {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--colors-text3);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .toc-chevron {
+    color: var(--colors-surface8);
+    transition: transform 0.15s;
+  }
+  .toc-chevron.open { transform: rotate(0deg); }
+  .toc-chevron.closed { transform: rotate(-90deg); }
+
+</style>
+</head>
+<body>
+
+<!-- ══ Header ══ -->
+<header class="header">
+  <div class="header-left">
+    <a class="sigma-logo" href="#" aria-label="Sigma home">
+      <svg width="91" height="28" viewBox="0 0 104 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M14.4523 15.3524L0 0.833252L21.4587 7.77987L14.4523 15.3524Z" fill="#171717"/>
+        <path d="M15.2997 16.1905L26.9131 30.6246L22.2956 8.60604L15.2997 16.1905Z" fill="#171717"/>
+        <path d="M25.4971 30.751L9.08954 23.5399L19.6969 23.5435L25.4971 30.751Z" fill="#171717"/>
+        <path d="M27.84 0.988769L22.4184 6.85587L17.1924 5.16107L27.84 0.988769Z" fill="#171717"/>
+        <path d="M25.9213 4.64943L28.9927 1.49197L34.2844 4.80138L25.9213 4.64943Z" fill="#171717"/>
+        <path d="M47.7862 9.6079C48.8888 9.6079 49.7826 8.66864 49.7826 7.51C49.7826 6.35137 48.8888 5.41211 47.7862 5.41211C46.6837 5.41211 45.7899 6.35137 45.7899 7.51C45.7899 8.66864 46.6837 9.6079 47.7862 9.6079Z" fill="#171717"/>
+        <path d="M89.5356 16.7473V24.3486H86.2425V17.0082C86.2425 14.8323 85.1254 13.7586 83.5789 13.7586C81.6604 13.7586 80.4576 15.2093 80.601 17.6465L80.5722 17.5305V24.3486H77.2493V17.0082C77.2493 14.8323 76.1326 13.7586 74.7007 13.7586C73.1543 13.7586 71.6079 14.629 71.6079 17.2115V24.3486H68.285V10.7991H71.6079V13.1203C72.0945 11.4086 73.9277 10.5068 75.5866 10.5068C77.5339 10.5068 79.1376 11.437 79.9106 13.1761C80.3367 12.3479 80.9845 11.6583 81.7798 11.1861C82.5751 10.714 83.4857 10.4785 84.407 10.5068C87.7596 10.509 89.5356 12.8013 89.5356 16.7473Z" fill="#171717"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M65.5838 22.4329V10.7992L62.3409 10.7966V12.5684C61.4184 11.1757 59.6572 10.5082 57.9801 10.5082C54.5413 10.5082 51.5783 13.2068 51.5783 17.5589C51.5783 21.8818 54.5693 24.638 58.0081 24.638C59.6013 24.638 61.4184 23.9416 62.3409 22.5494V22.7523C62.3409 26.6109 60.7757 28.1197 58.2595 28.1197C57.5338 28.1103 56.8246 27.8998 56.2086 27.5111C55.5927 27.1224 55.0935 26.5703 54.7652 25.9146L52.0815 27.1912C52.6241 28.3862 53.4957 29.3971 54.5916 30.1023C55.6876 30.8074 56.9612 31.177 58.2595 31.1664C62.7322 31.1664 65.5838 28.5259 65.5838 22.4329ZM62.0113 16.0522C62.1978 16.5221 62.2908 17.0246 62.285 17.531L62.2849 17.5306V17.5323L62.285 17.531C62.3014 18.0433 62.2159 18.5537 62.0337 19.0319C61.8515 19.5102 61.5761 19.9465 61.2241 20.3149C60.872 20.6832 60.4504 20.976 59.9844 21.1758C59.5183 21.3757 59.0174 21.4786 58.5113 21.4783C56.4983 21.4783 54.8491 19.7954 54.8491 17.5323C54.8291 17.0312 54.9087 16.5312 55.0835 16.062C55.2582 15.5928 55.5243 15.164 55.8661 14.8012C56.2078 14.4384 56.6181 14.149 57.0726 13.9503C57.527 13.7515 58.0163 13.6475 58.5113 13.6444C59.0116 13.6468 59.5065 13.7494 59.9674 13.9464C60.4284 14.1435 60.8463 14.431 61.1971 14.7924C61.5479 15.1538 61.8246 15.582 62.0113 16.0522Z" fill="#171717"/>
+        <path d="M49.4591 10.7992H46.1363V24.3487H49.4591V10.7992Z" fill="#171717"/>
+        <path d="M36.1091 20.144H32.8076C32.8684 23.045 35.6867 24.6698 38.5037 24.6711C41.3806 24.6711 44.2579 23.2191 44.2579 20.463C44.2579 19.2151 43.6826 17.3006 40.5027 16.517L38.2291 15.9367C37.4115 15.7626 36.715 15.3564 36.715 14.6601C36.715 13.8189 37.4719 13.2386 38.5623 13.2386C39.5618 13.2386 40.4402 13.8189 40.4402 14.7761H43.8019C43.8325 11.7298 40.9854 10.54 38.4714 10.54C35.382 10.54 33.2016 12.397 33.2016 14.5152C33.2016 16.2277 34.0192 17.8516 37.1995 18.664L39.0773 19.1283C40.1372 19.3604 40.7431 19.7099 40.7431 20.463C40.7431 21.3334 39.8342 21.9424 38.4412 21.9424C36.9573 21.9424 36.1091 21.0742 36.1091 20.144Z" fill="#171717"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M104 24.3488V16.2536C104 12.5397 101.437 10.5087 97.9204 10.5078C95.4668 10.5078 93.2042 11.4943 92.1138 12.9743L93.9129 14.8892C94.5945 14.048 96.0937 13.4385 97.7023 13.4385C99.5832 13.4385 100.728 14.6283 100.728 16.3399V17.1523C99.4592 16.5097 98.0577 16.1816 96.639 16.1951C93.6947 16.1951 91.3775 17.7034 91.3775 20.4307C91.3775 22.9849 93.3677 24.6389 96.1484 24.6389C97.9204 24.6389 99.8289 23.7973 100.728 22.5499V24.3488H104ZM100.728 19.4163V19.9674C99.9378 21.1572 98.2204 21.8823 96.7754 21.8832C95.3597 21.8832 94.4852 21.2475 94.4852 20.2885C94.4852 19.3295 95.385 18.5167 97.2117 18.5167C98.4411 18.5022 99.653 18.8123 100.728 19.4163Z" fill="#171717"/>
+      </svg>
+    </a>
+    <button class="icon-btn" aria-label="Search">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="4.5" stroke="currentColor" stroke-width="1.5"/><path d="M10.5 10.5L13 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+  <div class="header-right">
+    <button class="icon-btn" aria-label="Notifications">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 0 1 4 4v3l1 1.5H3L4 9V6a4 4 0 0 1 4-4Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M6.5 13.5a1.5 1.5 0 0 0 3 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+    </button>
+    <div class="avatar" title="Luke Stanke">LS</div>
+  </div>
+</header>
+
+<!-- ══ Body ══ -->
+<div class="app-body">
+
+  <!-- ── Left Rail ── -->
+  <nav class="left-rail">
+    <button class="create-btn">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      Create new
+    </button>
+
+    <div class="nav-item" onclick="setNav(this)">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 6.5L8 2l6 4.5V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6.5Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M6 15V9h4v6" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+      Home
+    </div>
+    <div class="nav-item" onclick="setNav(this)">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13 8c0 2.76-2.24 5-5 5S3 10.76 3 8s2.24-5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M10 2.5l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8" cy="8" r="1.5" fill="currentColor"/></svg>
+      Assistant
+      <span class="beta-badge" style="margin-left:2px;">BETA</span>
+    </div>
+    <div class="nav-item" onclick="setNav(this)">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 4a1 1 0 0 1 1-1h3.5l1.5 2H13a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+      Documents
+    </div>
+    <div class="nav-item" onclick="setNav(this)">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="9" y="2" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="2" y="9" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="9" y="9" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.5"/></svg>
+      Workspaces
+    </div>
+    <div class="nav-item" onclick="setNav(this)">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="12" height="9" rx="1" stroke="currentColor" stroke-width="1.5"/><path d="M5 14h6M8 11v3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      Templates
+    </div>
+
+    <div class="rail-divider"></div>
+
+    <div class="nav-item" onclick="setNav(this)">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="6" r="2.5" stroke="currentColor" stroke-width="1.5"/><path d="M2 14c0-3.31 2.69-5 6-5s6 1.69 6 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M12 6.5a2 2 0 1 0 0-4 2 2 0 0 0 0 4M4 6.5a2 2 0 1 0 0-4 2 2 0 0 0 0 4" stroke="currentColor" stroke-width="1.5"/></svg>
+      Shared with you
+    </div>
+    <div class="nav-item" onclick="setNav(this)">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="5.5" stroke="currentColor" stroke-width="1.5"/><path d="M8 5v3.5l2.5 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Recent
+    </div>
+    <div class="nav-item" data-active="true" onclick="setNav(this)">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2l1.8 3.6L14 6.5l-3 2.9.7 4.1L8 11.4l-3.7 2.1.7-4.1L2 6.5l4.2-.9L8 2Z" fill="#0059eb" stroke="#0059eb" stroke-width="1" stroke-linejoin="round"/></svg>
+      Favorites
+    </div>
+
+    <div class="rail-divider"></div>
+
+    <div class="nav-item" onclick="setNav(this)">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><ellipse cx="8" cy="5" rx="5" ry="2.5" stroke="currentColor" stroke-width="1.5"/><path d="M3 5v6c0 1.38 2.24 2.5 5 2.5s5-1.12 5-2.5V5" stroke="currentColor" stroke-width="1.5"/><path d="M3 8c0 1.38 2.24 2.5 5 2.5S13 9.38 13 8" stroke="currentColor" stroke-width="1.5"/></svg>
+      Connections
+    </div>
+    <div class="nav-item" onclick="setNav(this)">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2a6 6 0 1 0 0 12A6 6 0 0 0 8 2Zm0 0v2M8 12v2M2 8H0M16 8h-2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.5"/></svg>
+      Administration
+    </div>
+  </nav>
+
+  <!-- ── Main Content ── -->
+  <main class="main">
+    <div class="lesson-wrap">
+
+      <!-- ═══ Left: lesson content ═══ -->
+      <div class="lesson-content">
+
+        <!-- Breadcrumb -->
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="#">Home</a>
+          <span class="breadcrumb-sep">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M4.5 2.5l3 3.5-3 3.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+          <a href="#">Free Trial Guide</a>
+          <span class="breadcrumb-sep">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M4.5 2.5l3 3.5-3 3.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+          <span>Build Your First Workbook</span>
+        </nav>
+
+        <!-- Title -->
+        <h1 class="lesson-title">Build Your First Workbook in Sigma</h1>
+
+        <!-- Video placeholder -->
+        <div class="video-placeholder" role="button" aria-label="Play lesson overview video" tabindex="0">
+          <div class="video-play-btn">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M7 4.5L17 11 7 17.5V4.5Z" fill="white"/></svg>
+          </div>
+          <span class="video-label">Lesson overview — Watch first (3 min)</span>
+          <span class="video-duration">Introduction to Sigma workbooks and the canvas layout</span>
+        </div>
+
+        <!-- ─── Introduction ─── -->
+        <div class="step-section">
+          <h2 class="step-title">Introduction</h2>
+          <div class="step-description">
+            <p>A <strong>workbook</strong> is your primary workspace in Sigma. It combines a spreadsheet-like interface with a drag-and-drop canvas, letting you explore data, build visualizations, and share insights — all without writing SQL.</p>
+            <p>In this lesson, you'll connect a sample dataset, build a table, add a chart, and publish your first workbook. By the end, you'll have a working dashboard ready to share with your team.</p>
+          </div>
+          <div class="callout">
+            <strong>Before you start:</strong> Make sure you have access to at least one data connection. If you haven't set one up yet, visit <a href="#" style="color: var(--colors-primary9);">Connections</a> in the left rail and follow the setup guide.
+          </div>
+        </div>
+
+        <!-- ─── Step 1 ─── -->
+        <div class="step-section">
+          <p class="step-label">Step 1 of 4</p>
+          <h2 class="step-title">Open a new workbook</h2>
+          <div class="step-description">
+            <p>Start by creating a blank workbook from the left rail. Click <strong>Create new</strong> at the top of the navigation, then select <strong>Workbook</strong> from the menu.</p>
+            <p>Sigma opens the workbook editor with a blank canvas. The toolbar at the top gives you access to formatting, formula entry, and undo/redo. The canvas below is where you'll place charts, tables, and controls.</p>
+          </div>
+          <a href="#" class="try-sigma-btn">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1.5L12 7 7 12.5M1 7h11" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Open a new workbook in Sigma
+          </a>
+          <div class="screenshot-placeholder">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="4" width="16" height="12" rx="2" stroke="currentColor" stroke-width="1.5"/><circle cx="7" cy="9" r="2" stroke="currentColor" stroke-width="1.5"/><path d="M2 14l4.5-4 3 3 2.5-2.5L18 14" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+            Screenshot: Create new → Workbook
+          </div>
+        </div>
+
+        <!-- ─── Step 2 ─── -->
+        <div class="step-section">
+          <p class="step-label">Step 2 of 4</p>
+          <h2 class="step-title">Add a data source</h2>
+          <div class="step-description">
+            <p>Every element in Sigma is powered by a data source — a table, view, or custom SQL from your connected warehouse.</p>
+            <p>To add one:</p>
+            <ul>
+              <li>In the canvas, click the <strong>Data</strong> button in the floating toolbar on the left edge.</li>
+              <li>Select <strong>Table</strong> from the element picker.</li>
+              <li>In the source panel on the right, browse your connection and select the <code>SALES_ORDERS</code> table (or any table from your warehouse).</li>
+            </ul>
+            <p>Sigma loads a live preview of the table directly in your workbook — no data is moved or copied.</p>
+          </div>
+          <a href="#" class="try-sigma-btn">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1.5L12 7 7 12.5M1 7h11" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Add a table to your workbook
+          </a>
+          <div class="screenshot-placeholder">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="4" width="16" height="12" rx="2" stroke="currentColor" stroke-width="1.5"/><circle cx="7" cy="9" r="2" stroke="currentColor" stroke-width="1.5"/><path d="M2 14l4.5-4 3 3 2.5-2.5L18 14" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+            Screenshot: Data source panel + SALES_ORDERS table preview
+          </div>
+        </div>
+
+        <!-- ─── Step 3 ─── -->
+        <div class="step-section">
+          <p class="step-label">Step 3 of 4</p>
+          <h2 class="step-title">Group and summarize your data</h2>
+          <div class="step-description">
+            <p>Sigma lets you transform your data directly in the canvas — no SQL required. You can group rows, add calculated columns, and apply aggregations in a few clicks.</p>
+            <p>Try it now:</p>
+            <ul>
+              <li>Click the <strong>Region</strong> column header and select <strong>Group column</strong> from the menu.</li>
+              <li>Click <strong>Add column</strong> → <strong>Sum</strong> → select <code>Order_Revenue</code>.</li>
+              <li>Rename the new column to <strong>Total Revenue</strong> by double-clicking its header.</li>
+            </ul>
+            <p>Your table now shows total revenue grouped by region — a live aggregate computed against your warehouse every time the workbook loads.</p>
+          </div>
+          <a href="#" class="try-sigma-btn">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1.5L12 7 7 12.5M1 7h11" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Group and summarize your table
+          </a>
+          <div class="callout">
+            <strong>Pro tip:</strong> Hold <code>Shift</code> and click multiple column headers to group by more than one dimension at once.
+          </div>
+        </div>
+
+        <!-- ─── Step 4 ─── -->
+        <div class="step-section">
+          <p class="step-label">Step 4 of 4</p>
+          <h2 class="step-title">Create a bar chart from your table</h2>
+          <div class="step-description">
+            <p>Once your data is grouped, you can turn it into a chart in one click. Sigma automatically infers the best axis mapping based on your column types.</p>
+            <p>To build a chart:</p>
+            <ul>
+              <li>Click the <strong>Chart</strong> button in the toolbar above your table.</li>
+              <li>Select <strong>Bar chart</strong> from the chart picker.</li>
+              <li>Sigma maps <strong>Region</strong> to the X-axis and <strong>Total Revenue</strong> to the Y-axis automatically.</li>
+              <li>Use the <strong>Format</strong> tab in the right panel to apply a currency format (<code>$</code>) to the Y-axis labels.</li>
+            </ul>
+          </div>
+          <a href="#" class="try-sigma-btn">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1.5L12 7 7 12.5M1 7h11" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Build a chart in your workbook
+          </a>
+          <div class="screenshot-placeholder">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="4" width="16" height="12" rx="2" stroke="currentColor" stroke-width="1.5"/><circle cx="7" cy="9" r="2" stroke="currentColor" stroke-width="1.5"/><path d="M2 14l4.5-4 3 3 2.5-2.5L18 14" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+            Screenshot: Bar chart — Total Revenue by Region
+          </div>
+        </div>
+
+        <!-- ─── Conclusion ─── -->
+        <div class="step-section">
+          <h2 class="step-title">Next steps</h2>
+          <div class="step-description">
+            <p>You've built your first workbook — a live, interactive dashboard connected directly to your data warehouse. No data was downloaded, no pipeline was built. Every change you make queries your warehouse in real time.</p>
+            <p>In the next lesson, you'll learn how to add <strong>filters and controls</strong> so viewers can slice the data themselves — turning a static dashboard into a self-service analytics tool.</p>
+          </div>
+        </div>
+
+        <!-- ─── Prev / Next nav ─── -->
+        <div class="lesson-nav">
+          <button class="lesson-nav-btn prev">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <div class="lesson-nav-text">
+              <span class="lesson-nav-sub">Previous</span>
+              <span>Connect Your Data Source</span>
+            </div>
+          </button>
+          <button class="lesson-nav-btn next">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <div class="lesson-nav-text">
+              <span class="lesson-nav-sub">Next</span>
+              <span>Add Filters and Controls</span>
+            </div>
+          </button>
+        </div>
+
+        <!-- ─── Feedback ─── -->
+        <div class="feedback-widget">
+          <span class="feedback-label">Was this lesson helpful?</span>
+          <div class="feedback-btns">
+            <button class="feedback-btn" id="thumbsUp" onclick="toggleFeedback('up')">
+              <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M10 6V3a1 1 0 0 0-1-1H8L5 8v5h6.5l1-4H10Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M5 8H3.5A1.5 1.5 0 0 0 2 9.5v2A1.5 1.5 0 0 0 3.5 13H5" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+              Yes
+            </button>
+            <button class="feedback-btn" id="thumbsDown" onclick="toggleFeedback('down')">
+              <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M5 9v3a1 1 0 0 0 1 1h1l3-6V2H3.5l-1 4H5Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M10 7h1.5A1.5 1.5 0 0 0 13 5.5v-2A1.5 1.5 0 0 0 11.5 2H10" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+              No
+            </button>
+          </div>
+        </div>
+
+      </div><!-- /lesson-content -->
+
+      <!-- ═══ Right: TOC sidebar ═══ -->
+      <aside class="lesson-sidebar">
+        <p class="sidebar-section-label">Free Trial Guide</p>
+
+        <!-- Progress -->
+        <div class="progress-block">
+          <div class="progress-stats">
+            <span>2 of 7 lessons complete</span>
+            <span style="font-weight: 600; color: var(--colors-success);">29%</span>
+          </div>
+          <div class="progress-bar-track">
+            <div class="progress-bar-fill" style="width: 29%"></div>
+          </div>
+        </div>
+
+        <div class="toc-divider"></div>
+
+        <!-- Lesson list -->
+        <div class="toc-list">
+
+          <!-- Done -->
+          <div class="toc-item" data-done="true" onclick="setLesson(this)">
+            <svg class="toc-icon toc-icon-done" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="8" fill="#46A758" stroke="#46A758"/><path d="M5 9l3 3 5-5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <div class="toc-item-right">
+              <div class="toc-item-title">Get Started: Your Sigma Account</div>
+            </div>
+          </div>
+
+          <!-- Done -->
+          <div class="toc-item" data-done="true" onclick="setLesson(this)">
+            <svg class="toc-icon toc-icon-done" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="8" fill="#46A758" stroke="#46A758"/><path d="M5 9l3 3 5-5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <div class="toc-item-right">
+              <div class="toc-item-title">Connect Your Data Source</div>
+            </div>
+          </div>
+
+          <!-- Current -->
+          <div class="toc-item" data-current="true" onclick="setLesson(this)">
+            <svg class="toc-icon toc-icon-current" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="8" stroke="#0059eb" stroke-width="2"/><circle cx="9" cy="9" r="4" fill="#0059eb"/></svg>
+            <div class="toc-item-right">
+              <div class="toc-item-title">Build Your First Workbook</div>
+              <div class="toc-item-meta">
+                <span class="toc-item-tag tag-video">Video</span>
+                <span class="toc-item-tag">Interactive</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Todo -->
+          <div class="toc-item" onclick="setLesson(this)">
+            <svg class="toc-icon toc-icon-todo" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="8" stroke="#d3d3d3" stroke-width="1.5" stroke-dasharray="3 2"/></svg>
+            <div class="toc-item-right">
+              <div class="toc-item-title">Add Filters and Controls</div>
+              <div class="toc-item-meta">
+                <span class="toc-item-tag">Interactive</span>
+              </div>
+              <div class="toc-item-duration">12 min</div>
+            </div>
+          </div>
+
+          <!-- Todo -->
+          <div class="toc-item" onclick="setLesson(this)">
+            <svg class="toc-icon toc-icon-todo" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="8" stroke="#d3d3d3" stroke-width="1.5" stroke-dasharray="3 2"/></svg>
+            <div class="toc-item-right">
+              <div class="toc-item-title">Share and Collaborate</div>
+              <div class="toc-item-duration">8 min</div>
+            </div>
+          </div>
+
+          <!-- Todo -->
+          <div class="toc-item" onclick="setLesson(this)">
+            <svg class="toc-icon toc-icon-todo" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="8" stroke="#d3d3d3" stroke-width="1.5" stroke-dasharray="3 2"/></svg>
+            <div class="toc-item-right">
+              <div class="toc-item-title">Set Up Scheduled Reports</div>
+              <div class="toc-item-duration">10 min</div>
+            </div>
+          </div>
+
+          <!-- Todo -->
+          <div class="toc-item" onclick="setLesson(this)">
+            <svg class="toc-icon toc-icon-todo" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="8" stroke="#d3d3d3" stroke-width="1.5" stroke-dasharray="3 2"/></svg>
+            <div class="toc-item-right">
+              <div class="toc-item-title">Invite Your Team</div>
+              <div class="toc-item-duration">5 min</div>
+            </div>
+          </div>
+
+        </div><!-- /toc-list -->
+
+        <div class="toc-divider"></div>
+
+        <a href="#" class="sidebar-help-link">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.3"/><path d="M5.5 5.5a1.5 1.5 0 0 1 3 .5c0 1-1.5 1.5-1.5 2.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><circle cx="7" cy="10.5" r=".6" fill="currentColor"/></svg>
+          Visit Sigma documentation
+        </a>
+        <a href="#" class="sidebar-help-link" style="margin-top: 8px;">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2v10M2 7h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          Join a live onboarding session
+        </a>
+
+      </aside><!-- /sidebar -->
+
+    </div><!-- /lesson-wrap -->
+  </main>
+
+</div><!-- /app-body -->
+
+<script>
+  // Nav item click
+  function setNav(el) {
+    document.querySelectorAll('.nav-item').forEach(n => n.removeAttribute('data-active'));
+    el.setAttribute('data-active', 'true');
+  }
+
+  // TOC lesson click
+  function setLesson(el) {
+    // In a real app this would navigate
+    document.querySelectorAll('.toc-item').forEach(i => {
+      i.removeAttribute('data-current');
+    });
+    el.setAttribute('data-current', 'true');
+  }
+
+  // Feedback
+  function toggleFeedback(direction) {
+    const up = document.getElementById('thumbsUp');
+    const down = document.getElementById('thumbsDown');
+    if (direction === 'up') {
+      const wasActive = up.classList.contains('active-yes');
+      up.classList.toggle('active-yes', !wasActive);
+      down.classList.remove('active-no');
+    } else {
+      const wasActive = down.classList.contains('active-no');
+      down.classList.toggle('active-no', !wasActive);
+      up.classList.remove('active-yes');
+    }
+  }
+</script>
+
+</body>
+</html>
