@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Welcome to Sigma — Getting Started</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet" />
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --p9:#0059eb; --p8:#3b7ef0; --p6:#9ebef7; --p3:#e4ecfd; --p2:#edf3fe; --p1:#f7fafe;
+  --s1:#fcfcfc; --s2:#f7f7f7; --s3:#f3f3f3; --s4:#eeeeee; --s5:#e5e5e5; --s6:#d3d3d3; --s8:#a7a7a7; --s9:#8c8c8c; --s10:#686868;
+  --t5:#171717; --t4:#505050; --t3:#707070;
+  --success:#46A758;
+  --shadow-low: 0px 0px 8px rgba(0,0,0,.15), 0px 4px 4px rgba(0,0,0,.05);
+  --shadow-card: 0 2px 12px rgba(0,0,0,.08);
+  --font:"Source Sans Pro",sans-serif; --r:4px;
+}
+body { font-family:var(--font); color:var(--t5); background:#fff; font-size:14px; line-height:1.5; height:100vh; overflow:hidden; display:flex; flex-direction:column; }
+
+/* Shell */
+.header { height:48px; background:#fff; border-bottom:1px solid var(--s4); display:flex; align-items:center; justify-content:space-between; padding:0 12px 0 16px; flex-shrink:0; z-index:10; }
+.header-left { display:flex; align-items:center; gap:12px; }
+.header-right { display:flex; align-items:center; gap:4px; }
+.icon-btn { width:32px; height:32px; background:none; border:none; border-radius:var(--r); display:flex; align-items:center; justify-content:center; cursor:pointer; color:var(--t4); }
+.icon-btn:hover { background:var(--s3); }
+.avatar { width:28px; height:28px; border-radius:50%; background:#1976D2; color:#fff; font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; cursor:pointer; }
+.app-body { display:flex; flex:1; overflow:hidden; }
+.left-rail { width:220px; flex-shrink:0; background:#fff; border-right:1px solid var(--s4); display:flex; flex-direction:column; padding:12px 8px; gap:2px; overflow-y:auto; }
+.create-btn { display:flex; align-items:center; gap:8px; background:var(--p9); color:#fff; border:none; border-radius:var(--r); padding:0 14px; height:36px; font-family:var(--font); font-size:14px; font-weight:600; cursor:pointer; width:100%; margin-bottom:8px; }
+.create-btn:hover { background:var(--p8); }
+.nav-item { display:flex; align-items:center; gap:8px; height:32px; padding:0 8px; border-radius:var(--r); cursor:pointer; color:var(--t4); font-size:14px; font-weight:400; transition:background .1s; text-decoration:none; }
+.nav-item:hover { background:var(--s2); }
+.nav-item[data-active="true"] { background:var(--p2); color:var(--p9); font-weight:600; }
+.rail-divider { height:1px; background:var(--s4); margin:6px 4px; }
+.beta-badge { font-size:9px; font-weight:700; letter-spacing:.06em; background:var(--p3); color:var(--p9); border-radius:999px; padding:1px 5px; }
+
+/* Main quiz area */
+.main { flex:1; overflow-y:auto; background:var(--s1); display:flex; align-items:flex-start; justify-content:center; padding:48px 24px 80px; }
+.quiz-wrap { width:100%; max-width:680px; }
+
+/* Screens */
+.screen { display:none; }
+.screen.active { display:block; animation: fadeUp .25s ease; }
+@keyframes fadeUp { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+
+/* Welcome intro */
+.quiz-eyebrow { font-size:12px; font-weight:700; letter-spacing:.07em; text-transform:uppercase; color:var(--p9); margin-bottom:10px; }
+.quiz-headline { font-size:26px; font-weight:700; color:var(--t5); line-height:1.25; margin-bottom:8px; }
+.quiz-sub { font-size:15px; color:var(--t3); line-height:1.6; margin-bottom:32px; }
+
+/* Question label */
+.question-label { font-size:13px; font-weight:700; color:var(--t4); margin-bottom:14px; display:flex; align-items:center; gap:8px; }
+.q-step-pip { display:inline-flex; align-items:center; justify-content:center; width:20px; height:20px; border-radius:50%; background:var(--p9); color:#fff; font-size:11px; font-weight:700; flex-shrink:0; }
+
+/* Option cards */
+.option-grid { display:flex; flex-direction:column; gap:10px; margin-bottom:24px; }
+.option-card { background:#fff; border:2px solid var(--s5); border-radius:10px; padding:18px 20px; display:flex; align-items:flex-start; gap:16px; cursor:pointer; transition:border-color .15s, box-shadow .15s; }
+.option-card:hover { border-color:var(--p6); box-shadow:var(--shadow-low); }
+.option-card.selected { border-color:var(--p9); background:var(--p1); }
+.option-icon { width:40px; height:40px; border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:20px; }
+.oi-orange { background:#fff6ea; }
+.oi-blue { background:var(--p2); }
+.oi-green { background:#edfbf0; }
+.oi-purple { background:#f3eaff; }
+.option-text { flex:1; min-width:0; }
+.option-title { font-size:15px; font-weight:700; color:var(--t5); line-height:1.3; margin-bottom:3px; }
+.option-desc { font-size:13px; color:var(--t3); line-height:1.5; }
+.option-check { width:20px; height:20px; border-radius:50%; border:2px solid var(--s5); display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:2px; transition:all .15s; }
+.option-card.selected .option-check { background:var(--p9); border-color:var(--p9); }
+
+/* Back link */
+.back-link { font-size:13px; color:var(--t3); cursor:pointer; display:inline-flex; align-items:center; gap:4px; margin-bottom:20px; text-decoration:none; border:none; background:none; font-family:var(--font); }
+.back-link:hover { color:var(--p9); }
+
+/* Result screen */
+.result-badge { display:inline-flex; align-items:center; gap:8px; background:var(--p2); color:var(--p9); border-radius:999px; padding:4px 12px; font-size:12px; font-weight:700; margin-bottom:16px; }
+.result-headline { font-size:24px; font-weight:700; color:var(--t5); margin-bottom:8px; }
+.result-sub { font-size:15px; color:var(--t4); line-height:1.6; margin-bottom:28px; max-width:520px; }
+
+/* Path sequence */
+.path-sequence { display:flex; align-items:center; gap:10px; margin-bottom:28px; flex-wrap:wrap; }
+.path-track-card { background:#fff; border:1px solid var(--s5); border-radius:8px; padding:12px 16px; display:flex; align-items:center; gap:10px; min-width:0; }
+.path-track-icon { width:32px; height:32px; border-radius:6px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.pti-blue { background:var(--p2); color:var(--p9); }
+.pti-green { background:#edfbf0; color:#2d8a42; }
+.pti-orange { background:#fff6ea; color:#c16a00; }
+.path-track-info { min-width:0; }
+.path-track-name { font-size:13px; font-weight:700; color:var(--t5); }
+.path-track-meta { font-size:11px; color:var(--t3); margin-top:1px; }
+.path-arrow { color:var(--s8); flex-shrink:0; }
+.path-then-label { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.06em; color:var(--t3); }
+
+/* CTA */
+.result-cta-btn { display:inline-flex; align-items:center; gap:8px; background:var(--p9); color:#fff; text-decoration:none; border-radius:6px; padding:0 20px; height:42px; font-family:var(--font); font-size:15px; font-weight:700; transition:background .15s; }
+.result-cta-btn:hover { background:var(--p8); }
+.result-secondary { display:block; margin-top:14px; font-size:13px; color:var(--t3); text-decoration:none; }
+.result-secondary:hover { color:var(--p9); text-decoration:underline; }
+
+/* License tag */
+.license-tag { display:inline-flex; align-items:center; gap:5px; background:var(--s3); border-radius:4px; padding:3px 8px; font-size:11px; color:var(--t4); font-weight:600; margin-bottom:20px; }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-left">
+    <a href="sigma-home.html" aria-label="Sigma home">
+      <svg width="91" height="28" viewBox="0 0 104 32" fill="none"><path d="M14.4523 15.3524L0 0.833252L21.4587 7.77987L14.4523 15.3524Z" fill="#171717"/><path d="M15.2997 16.1905L26.9131 30.6246L22.2956 8.60604L15.2997 16.1905Z" fill="#171717"/><path d="M25.4971 30.751L9.08954 23.5399L19.6969 23.5435L25.4971 30.751Z" fill="#171717"/><path d="M27.84 0.988769L22.4184 6.85587L17.1924 5.16107L27.84 0.988769Z" fill="#171717"/><path d="M25.9213 4.64943L28.9927 1.49197L34.2844 4.80138L25.9213 4.64943Z" fill="#171717"/><path d="M47.7862 9.6079C48.8888 9.6079 49.7826 8.66864 49.7826 7.51C49.7826 6.35137 48.8888 5.41211 47.7862 5.41211C46.6837 5.41211 45.7899 6.35137 45.7899 7.51C45.7899 8.66864 46.6837 9.6079 47.7862 9.6079Z" fill="#171717"/><path d="M89.5356 16.7473V24.3486H86.2425V17.0082C86.2425 14.8323 85.1254 13.7586 83.5789 13.7586C81.6604 13.7586 80.4576 15.2093 80.601 17.6465L80.5722 17.5305V24.3486H77.2493V17.0082C77.2493 14.8323 76.1326 13.7586 74.7007 13.7586C73.1543 13.7586 71.6079 14.629 71.6079 17.2115V24.3486H68.285V10.7991H71.6079V13.1203C72.0945 11.4086 73.9277 10.5068 75.5866 10.5068C77.5339 10.5068 79.1376 11.437 79.9106 13.1761C80.3367 12.3479 80.9845 11.6583 81.7798 11.1861C82.5751 10.714 83.4857 10.4785 84.407 10.5068C87.7596 10.509 89.5356 12.8013 89.5356 16.7473Z" fill="#171717"/><path fill-rule="evenodd" clip-rule="evenodd" d="M65.5838 22.4329V10.7992L62.3409 10.7966V12.5684C61.4184 11.1757 59.6572 10.5082 57.9801 10.5082C54.5413 10.5082 51.5783 13.2068 51.5783 17.5589C51.5783 21.8818 54.5693 24.638 58.0081 24.638C59.6013 24.638 61.4184 23.9416 62.3409 22.5494V22.7523C62.3409 26.6109 60.7757 28.1197 58.2595 28.1197C57.5338 28.1103 56.8246 27.8998 56.2086 27.5111C55.5927 27.1224 55.0935 26.5703 54.7652 25.9146L52.0815 27.1912C52.6241 28.3862 53.4957 29.3971 54.5916 30.1023C55.6876 30.8074 56.9612 31.177 58.2595 31.1664C62.7322 31.1664 65.5838 28.5259 65.5838 22.4329ZM62.0113 16.0522C62.1978 16.5221 62.2908 17.0246 62.285 17.531C62.3014 18.0433 62.2159 18.5537 62.0337 19.0319C61.8515 19.5102 61.5761 19.9465 61.2241 20.3149C60.872 20.6832 60.4504 20.976 59.9844 21.1758C59.5183 21.3757 59.0174 21.4786 58.5113 21.4783C56.4983 21.4783 54.8491 19.7954 54.8491 17.5323C54.8291 17.0312 54.9087 16.5312 55.0835 16.062C55.2582 15.5928 55.5243 15.164 55.8661 14.8012C56.2078 14.4384 56.6181 14.149 57.0726 13.9503C57.527 13.7515 58.0163 13.6475 58.5113 13.6444C59.0116 13.6468 59.5065 13.7494 59.9674 13.9464C60.4284 14.1435 60.8463 14.431 61.1971 14.7924C61.5479 15.1538 61.8246 15.582 62.0113 16.0522Z" fill="#171717"/><path d="M49.4591 10.7992H46.1363V24.3487H49.4591V10.7992Z" fill="#171717"/><path d="M36.1091 20.144H32.8076C32.8684 23.045 35.6867 24.6698 38.5037 24.6711C41.3806 24.6711 44.2579 23.2191 44.2579 20.463C44.2579 19.2151 43.6826 17.3006 40.5027 16.517L38.2291 15.9367C37.4115 15.7626 36.715 15.3564 36.715 14.6601C36.715 13.8189 37.4719 13.2386 38.5623 13.2386C39.5618 13.2386 40.4402 13.8189 40.4402 14.7761H43.8019C43.8325 11.7298 40.9854 10.54 38.4714 10.54C35.382 10.54 33.2016 12.397 33.2016 14.5152C33.2016 16.2277 34.0192 17.8516 37.1995 18.664L39.0773 19.1283C40.1372 19.3604 40.7431 19.7099 40.7431 20.463C40.7431 21.3334 39.8342 21.9424 38.4412 21.9424C36.9573 21.9424 36.1091 21.0742 36.1091 20.144Z" fill="#171717"/><path fill-rule="evenodd" clip-rule="evenodd" d="M104 24.3488V16.2536C104 12.5397 101.437 10.5087 97.9204 10.5078C95.4668 10.5078 93.2042 11.4943 92.1138 12.9743L93.9129 14.8892C94.5945 14.048 96.0937 13.4385 97.7023 13.4385C99.5832 13.4385 100.728 14.6283 100.728 16.3399V17.1523C99.4592 16.5097 98.0577 16.1816 96.639 16.1951C93.6947 16.1951 91.3775 17.7034 91.3775 20.4307C91.3775 22.9849 93.3677 24.6389 96.1484 24.6389C97.9204 24.6389 99.8289 23.7973 100.728 22.5499V24.3488H104ZM100.728 19.4163V19.9674C99.9378 21.1572 98.2204 21.8823 96.7754 21.8832C95.3597 21.8832 94.4852 21.2475 94.4852 20.2885C94.4852 19.3295 95.385 18.5167 97.2117 18.5167C98.4411 18.5022 99.653 18.8123 100.728 19.4163Z" fill="#171717"/></svg>
+    </a>
+    <button class="icon-btn" aria-label="Search"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="4.5" stroke="currentColor" stroke-width="1.5"/><path d="M10.5 10.5L13 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
+  </div>
+  <div class="header-right">
+    <button class="icon-btn" aria-label="Notifications"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 0 1 4 4v3l1 1.5H3L4 9V6a4 4 0 0 1 4-4Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M6.5 13.5a1.5 1.5 0 0 0 3 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
+    <div class="avatar">LS</div>
+  </div>
+</header>
+
+<div class="app-body">
+  <nav class="left-rail">
+    <button class="create-btn"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Create new</button>
+    <a href="sigma-home.html" class="nav-item"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 6.5L8 2l6 4.5V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6.5Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>Home</a>
+    <div class="nav-item"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="5.5" stroke="currentColor" stroke-width="1.5"/><path d="M8 5v3.5l2 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Assistant<span class="beta-badge" style="margin-left:2px">BETA</span></div>
+    <div class="nav-item"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 4a1 1 0 0 1 1-1h3.5l1.5 2H13a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>Documents</div>
+    <div class="nav-item"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="9" y="2" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="2" y="9" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="9" y="9" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.5"/></svg>Workspaces</div>
+    <div class="rail-divider"></div>
+    <a href="sigma-hub.html" class="nav-item" data-active="true">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 13V5l6-3 6 3v8" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><rect x="5.5" y="8" width="5" height="5" rx=".5" stroke="currentColor" stroke-width="1.5"/></svg>
+      Getting Started
+    </a>
+    <div class="rail-divider"></div>
+    <div class="nav-item"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><ellipse cx="8" cy="5" rx="5" ry="2.5" stroke="currentColor" stroke-width="1.5"/><path d="M3 5v6c0 1.38 2.24 2.5 5 2.5S13 12.38 13 11V5" stroke="currentColor" stroke-width="1.5"/></svg>Connections</div>
+    <div class="nav-item"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.5"/></svg>Administration</div>
+  </nav>
+
+  <main class="main">
+    <div class="quiz-wrap">
+
+      <!-- ── SCREEN 1: Question 1 ── -->
+      <div class="screen active" id="screen-q1">
+        <div class="quiz-eyebrow">Getting Started</div>
+        <h1 class="quiz-headline">Welcome to Sigma.<br>Let's find your starting point.</h1>
+        <p class="quiz-sub">Answer two quick questions and we'll recommend the right learning path for you.</p>
+
+        <div class="question-label">
+          <span class="q-step-pip">1</span>
+          What's your primary goal in Sigma?
+        </div>
+
+        <div class="option-grid">
+
+          <div class="option-card" data-value="admin" onclick="selectQ1(this)">
+            <div class="option-icon oi-orange">
+              <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="7.5" stroke="#c16a00" stroke-width="1.6"/><circle cx="11" cy="11" r="3" stroke="#c16a00" stroke-width="1.6"/><path d="M11 3.5v2M11 16.5v2M3.5 11h2M16.5 11h2" stroke="#c16a00" stroke-width="1.4" stroke-linecap="round"/></svg>
+            </div>
+            <div class="option-text">
+              <div class="option-title">Set up &amp; manage</div>
+              <div class="option-desc">I'm configuring Sigma for my organization — connecting data sources, managing users, and establishing governance.</div>
+            </div>
+            <div class="option-check">
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+          </div>
+
+          <div class="option-card" data-value="builder" onclick="selectQ1(this)">
+            <div class="option-icon oi-blue">
+              <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="2" y="4" width="18" height="14" rx="2" stroke="#0059eb" stroke-width="1.6"/><path d="M2 8h18" stroke="#0059eb" stroke-width="1.6"/><path d="M7 8v10M13 8v10" stroke="#0059eb" stroke-width="1.3" stroke-dasharray="2 2"/><rect x="8" y="12" width="6" height="3" rx=".5" fill="#0059eb" opacity=".2" stroke="#0059eb" stroke-width="1"/></svg>
+            </div>
+            <div class="option-text">
+              <div class="option-title">Build &amp; publish</div>
+              <div class="option-desc">I'll be creating dashboards, reports, and analyses for others to use and explore.</div>
+            </div>
+            <div class="option-check">
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+          </div>
+
+          <div class="option-card" data-value="explorer" onclick="selectQ1(this)">
+            <div class="option-icon oi-green">
+              <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="10" cy="10" r="6.5" stroke="#2d8a42" stroke-width="1.6"/><path d="M15 15l3.5 3.5" stroke="#2d8a42" stroke-width="1.6" stroke-linecap="round"/><path d="M8 10h4M10 8v4" stroke="#2d8a42" stroke-width="1.4" stroke-linecap="round"/></svg>
+            </div>
+            <div class="option-text">
+              <div class="option-title">Explore &amp; analyze</div>
+              <div class="option-desc">I'll be working with existing content — exploring data, creating custom views, and saving my own analyses.</div>
+            </div>
+            <div class="option-check">
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+          </div>
+
+        </div>
+
+        <p style="font-size:12px;color:var(--t3)">Not sure? <a href="sigma-personas.html" style="color:var(--p9)">View all learning paths by role →</a></p>
+      </div>
+
+      <!-- ── SCREEN 2: Question 2 (builder only) ── -->
+      <div class="screen" id="screen-q2">
+        <button class="back-link" onclick="goBack('screen-q1')">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Back
+        </button>
+
+        <div class="quiz-eyebrow">Getting Started</div>
+        <h1 class="quiz-headline">One more question.</h1>
+        <p class="quiz-sub">This helps us match you to the right starting track.</p>
+
+        <div class="question-label">
+          <span class="q-step-pip">2</span>
+          Where will you be starting from?
+        </div>
+
+        <div class="option-grid">
+
+          <div class="option-card" data-value="builder-101" onclick="selectQ2(this)">
+            <div class="option-icon oi-blue">
+              <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="2" y="3" width="18" height="16" rx="2" stroke="#0059eb" stroke-width="1.6"/><path d="M2 7h18" stroke="#0059eb" stroke-width="1.6"/><path d="M7 11h8M7 14h5" stroke="#0059eb" stroke-width="1.3" stroke-linecap="round"/></svg>
+            </div>
+            <div class="option-text">
+              <div class="option-title">Existing workbook</div>
+              <div class="option-desc">I'll start by opening pre-built content, exploring what's there, then learn to extend and customize it.</div>
+            </div>
+            <div class="option-check">
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+          </div>
+
+          <div class="option-card" data-value="builder-201" onclick="selectQ2(this)">
+            <div class="option-icon oi-purple">
+              <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="3" y="3" width="16" height="16" rx="2" stroke="#6b3fa0" stroke-width="1.6" stroke-dasharray="3 2"/><path d="M11 7v8M7 11h8" stroke="#6b3fa0" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </div>
+            <div class="option-text">
+              <div class="option-title">Blank canvas</div>
+              <div class="option-desc">I'll connect directly to a data source and build analyses, dashboards, and calculations from scratch.</div>
+            </div>
+            <div class="option-check">
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ── RESULT: Admin ── -->
+      <div class="screen" id="result-admin">
+        <button class="back-link" onclick="goBack('screen-q1')">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Back
+        </button>
+        <div class="result-badge">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5" stroke="currentColor" stroke-width="1.4"/><circle cx="6.5" cy="6.5" r="2" stroke="currentColor" stroke-width="1.4"/></svg>
+          You're an Administrator
+        </div>
+        <h1 class="result-headline">Your path: Admin Setup</h1>
+        <p class="result-sub">You'll learn how to connect your data warehouse, manage user licenses and permissions, configure Sigma's AI features, and establish governance for your organization.</p>
+        <div class="license-tag">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="1" y="2" width="10" height="8" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M4 6h4M4 8h2" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>
+          Sigma license: Build (Admin account type)
+        </div>
+        <div class="path-sequence">
+          <div class="path-track-card">
+            <div class="path-track-icon pti-orange">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="5.5" stroke="currentColor" stroke-width="1.4"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.4"/><path d="M8 2.5v1.5M8 12v1.5M2.5 8H4M12 8h1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+            </div>
+            <div class="path-track-info">
+              <div class="path-track-name">Admin Setup</div>
+              <div class="path-track-meta">8 lessons · ~30 min</div>
+            </div>
+          </div>
+        </div>
+        <a href="sigma-t3-l01.html" class="result-cta-btn">
+          Start Admin Setup
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M7.5 4L11 7l-3.5 3" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="sigma-hub.html" class="result-secondary">View all tracks →</a>
+      </div>
+
+      <!-- ── RESULT: Explorer ── -->
+      <div class="screen" id="result-explorer">
+        <button class="back-link" onclick="goBack('screen-q1')">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Back
+        </button>
+        <div class="result-badge" style="background:#edfbf0;color:#2d8a42;">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="7" cy="7" r="4.5" stroke="currentColor" stroke-width="1.4"/><path d="M10 10l2.5 2.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+          You're a Super User
+        </div>
+        <h1 class="result-headline">Your path: Working in Sigma</h1>
+        <p class="result-sub">You'll learn the three workbook modes, how to apply filters and build custom formulas, create and format charts, and save your own personalized views of existing data.</p>
+        <div class="license-tag">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="1" y="2" width="10" height="8" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M4 6h4M4 8h2" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>
+          Sigma license: Analyze or Build
+        </div>
+        <div class="path-sequence">
+          <div class="path-track-card">
+            <div class="path-track-icon pti-blue">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1.5" y="2.5" width="13" height="11" rx="1.5" stroke="currentColor" stroke-width="1.4"/><path d="M1.5 6h13" stroke="currentColor" stroke-width="1.4"/><path d="M5.5 6v7.5" stroke="currentColor" stroke-width="1.2"/></svg>
+            </div>
+            <div class="path-track-info">
+              <div class="path-track-name">Working in Sigma</div>
+              <div class="path-track-meta">16 lessons · ~55 min</div>
+            </div>
+          </div>
+        </div>
+        <a href="sigma-t1-l01.html" class="result-cta-btn" style="background:#16a34a;">
+          Start Working in Sigma
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M7.5 4L11 7l-3.5 3" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="sigma-hub.html" class="result-secondary">View all tracks →</a>
+      </div>
+
+      <!-- ── RESULT: Builder 101 ── -->
+      <div class="screen" id="result-builder-101">
+        <button class="back-link" onclick="goBack('screen-q2')">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Back
+        </button>
+        <div class="result-badge">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="1.5" y="1.5" width="10" height="10" rx="1.5" stroke="currentColor" stroke-width="1.4"/><path d="M4 7h5M4 9h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><path d="M4 5h5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+          You're a Builder
+        </div>
+        <h1 class="result-headline">Your path: Working in Sigma</h1>
+        <p class="result-sub">Start by getting comfortable with how Sigma works — workbook modes, formulas, charts, and extending pre-built content. This is the foundation everything else builds on.</p>
+        <div class="license-tag">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="1" y="2" width="10" height="8" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M4 6h4M4 8h2" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>
+          Sigma license: Build
+        </div>
+        <div class="path-sequence">
+          <div class="path-track-card">
+            <div class="path-track-icon pti-blue">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1.5" y="2.5" width="13" height="11" rx="1.5" stroke="currentColor" stroke-width="1.4"/><path d="M1.5 6h13" stroke="currentColor" stroke-width="1.4"/><path d="M5.5 6v7.5" stroke="currentColor" stroke-width="1.2"/></svg>
+            </div>
+            <div class="path-track-info">
+              <div class="path-track-name">Working in Sigma</div>
+              <div class="path-track-meta">16 lessons · ~55 min</div>
+            </div>
+          </div>
+        </div>
+        <a href="sigma-t1-l01.html" class="result-cta-btn">
+          Start Working in Sigma
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M7.5 4L11 7l-3.5 3" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="sigma-hub.html" class="result-secondary">View all tracks →</a>
+      </div>
+
+      <!-- ── RESULT: Builder 201 ── -->
+      <div class="screen" id="result-builder-201">
+        <button class="back-link" onclick="goBack('screen-q2')">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Back
+        </button>
+        <div class="result-badge">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="1.5" y="1.5" width="10" height="10" rx="1.5" stroke="currentColor" stroke-width="1.4"/><path d="M4 7h5M4 9h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><path d="M4 5h5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+          You're a Builder
+        </div>
+        <h1 class="result-headline">Your path: Working in Sigma → Build from Scratch</h1>
+        <p class="result-sub">Start with the fundamentals — workbook modes, formulas, and charts — then move into the 201 track to connect your own data sources, build from a blank canvas, and publish dashboards.</p>
+        <div class="license-tag">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="1" y="2" width="10" height="8" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M4 6h4M4 8h2" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>
+          Sigma license: Build
+        </div>
+        <div class="path-sequence">
+          <div class="path-track-card">
+            <div class="path-track-icon pti-blue">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1.5" y="2.5" width="13" height="11" rx="1.5" stroke="currentColor" stroke-width="1.4"/><path d="M1.5 6h13" stroke="currentColor" stroke-width="1.4"/><path d="M5.5 6v7.5" stroke="currentColor" stroke-width="1.2"/></svg>
+            </div>
+            <div class="path-track-info">
+              <div class="path-track-name">Working in Sigma</div>
+              <div class="path-track-meta">16 lessons · ~55 min</div>
+            </div>
+          </div>
+          <div class="path-arrow">
+            <svg width="20" height="16" viewBox="0 0 20 16" fill="none"><path d="M3 8h14M12 4l5 4-5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="path-then-label">then</div>
+          <div class="path-arrow">
+            <svg width="20" height="16" viewBox="0 0 20 16" fill="none"><path d="M3 8h14M12 4l5 4-5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="path-track-card">
+            <div class="path-track-icon pti-green">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2.5 14V4l5.5-2.5L13.5 4v10" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M5.5 14v-4h5v4" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="path-track-info">
+              <div class="path-track-name">Build from Scratch</div>
+              <div class="path-track-meta">13 lessons · ~50 min</div>
+            </div>
+          </div>
+        </div>
+        <a href="sigma-t1-l01.html" class="result-cta-btn">
+          Start Track 1 first
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M7.5 4L11 7l-3.5 3" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="sigma-hub.html" class="result-secondary">View all tracks →</a>
+      </div>
+
+    </div><!-- /quiz-wrap -->
+  </main>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  function show(id) {
+    document.querySelectorAll('.screen').forEach(function (s) {
+      s.classList.remove('active');
+    });
+    var el = document.getElementById(id);
+    if (el) { el.classList.add('active'); }
+    document.querySelector('.main').scrollTop = 0;
+  }
+
+  window.selectQ1 = function (card) {
+    document.querySelectorAll('#screen-q1 .option-card').forEach(function (c) {
+      c.classList.remove('selected');
+    });
+    card.classList.add('selected');
+
+    var value = card.getAttribute('data-value');
+    setTimeout(function () {
+      if (value === 'admin') {
+        savePersona('admin');
+        show('result-admin');
+      } else if (value === 'explorer') {
+        savePersona('explorer');
+        show('result-explorer');
+      } else if (value === 'builder') {
+        show('screen-q2');
+      }
+    }, 200);
+  };
+
+  window.selectQ2 = function (card) {
+    document.querySelectorAll('#screen-q2 .option-card').forEach(function (c) {
+      c.classList.remove('selected');
+    });
+    card.classList.add('selected');
+
+    var value = card.getAttribute('data-value');
+    setTimeout(function () {
+      savePersona(value);
+      show('result-' + value);
+    }, 200);
+  };
+
+  window.goBack = function (screenId) {
+    show(screenId);
+  };
+
+  function savePersona(persona) {
+    try { localStorage.setItem('sigma-persona', persona); } catch (e) {}
+  }
+})();
+</script>
+</body>
+</html>
