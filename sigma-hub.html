@@ -71,6 +71,24 @@ body { font-family:var(--font); color:var(--t5); background:#fff; font-size:14px
 .gs-badge { display:inline-flex; font-size:10px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; padding:2px 7px; border-radius:999px; }
 .gs-badge.getting-started { background:var(--p2); color:var(--p9); }
 .gs-badge.deep-dive { background:#f3eaff; color:#6b3fa0; }
+/* Hero block */
+.hero-block{background:#fff;border:1px solid var(--s5);border-radius:10px;padding:18px 22px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+.hero-left{flex:1;min-width:0}
+.hero-state-label{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:5px;display:flex;align-items:center;gap:5px}
+.hero-label-new{color:var(--p9)}
+.hero-label-return{color:#16a34a}
+.hero-title{font-size:17px;font-weight:700;color:var(--t5);line-height:1.3;margin-bottom:4px}
+.hero-sub{font-size:13px;color:var(--t3);line-height:1.4}
+.hero-prog-row{display:flex;align-items:center;gap:10px;margin-top:10px;flex-wrap:wrap}
+.hero-prog-bar{width:180px;height:5px;background:var(--s4);border-radius:999px;overflow:hidden;flex-shrink:0}
+.hero-prog-fill{height:100%;background:var(--p9);border-radius:999px}
+.hero-prog-label{font-size:12px;color:var(--t3)}
+.hero-cta-btn{display:inline-flex;align-items:center;gap:6px;background:var(--p9);color:#fff;text-decoration:none;border-radius:6px;padding:0 20px;height:38px;font-size:14px;font-weight:600;flex-shrink:0;white-space:nowrap;transition:background .15s}
+.hero-cta-btn:hover{background:var(--p8)}
+/* Stats strip */
+.hub-stats{display:flex;align-items:center;gap:12px;font-size:12px;color:var(--t3);margin-bottom:20px;padding:0 2px;flex-wrap:wrap}
+.hub-stat-num{font-weight:700;color:var(--t4)}
+.hub-stat-div{width:1px;height:11px;background:var(--s5);flex-shrink:0}
 /* Demo Apps */
 .demo-apps-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
 .demo-app-card { background:#fff; border:1px solid var(--s5); border-radius:8px; overflow:hidden; display:flex; flex-direction:column; text-decoration:none; color:inherit; transition:border-color .15s,box-shadow .15s; }
@@ -119,13 +137,8 @@ body { font-family:var(--font); color:var(--t5); background:#fff; font-size:14px
   </nav>
 
   <main class="main">
-    <div class="hub-header">
-      <p class="hub-subtitle">Complete these tracks to get up and running, then explore deep dives. <a href="sigma-personas.html" style="color:var(--p9);font-weight:600;text-decoration:none;">View paths by role →</a></p>
-      <div class="hub-overall">
-        <span style="color:var(--t3)">0 of 5 tracks complete</span>
-        <div class="hub-prog-track"><div class="hub-prog-fill" style="width:0%"></div></div>
-      </div>
-    </div>
+    <div id="hero-block" class="hero-block"></div>
+    <div id="hub-stats" class="hub-stats"></div>
 
     <!-- Getting Started -->
     <div class="hub-section">
@@ -259,5 +272,102 @@ body { font-family:var(--font); color:var(--t5); background:#fff; font-size:14px
     </div>
   </main>
 </div>
+<script>
+(function() {
+  var TRACKS = {
+    t1:  { name: 'Working in Sigma',   total: 16, href: 'sigma-t1-l01.html',  mins: 55 },
+    t2:  { name: 'Build from Scratch', total: 13, href: 'sigma-t2-l01.html',  mins: 50 },
+    t3:  { name: 'Admin Setup',        total: 8,  href: 'sigma-t3-l01.html',  mins: 30 },
+    dd1: { name: 'Build with AI',      total: 6,  href: 'sigma-t2-l09.html',  mins: 15 },
+    dd2: { name: 'Embedding',          total: 5,  href: 'sigma-dd2-l01.html', mins: 25 },
+  };
+
+  function getProgress() {
+    try { return JSON.parse(localStorage.getItem('sigma-trial-progress') || '{}'); }
+    catch(e) { return {}; }
+  }
+
+  var lastLesson = localStorage.getItem('sigma-last-lesson') || '';
+  var progress = getProgress();
+
+  // Derive active track from last lesson URL
+  var activeTrack = null;
+  var m = lastLesson.match(/sigma-(t\d+|dd\d+)-l(\d+)/);
+  if (m) activeTrack = m[1];
+
+  // Compute overall stats
+  var totalDone = 0, tracksComplete = 0, tracksStarted = 0;
+  Object.keys(TRACKS).forEach(function(k) {
+    var d = (progress[k] || []).length;
+    totalDone += d;
+    if (d > 0) tracksStarted++;
+    if (d >= TRACKS[k].total) tracksComplete++;
+  });
+  var minsInvested = Math.round(totalDone * 3.5);
+
+  // ── Hero block ──
+  var hero = document.getElementById('hero-block');
+  if (hero) {
+    var arrowSvg = '<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M7.5 3.5L11 7l-3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+    if (!lastLesson || !activeTrack || !TRACKS[activeTrack]) {
+      // First visit
+      hero.innerHTML =
+        '<div class="hero-left">' +
+          '<div class="hero-state-label hero-label-new">' +
+            '<svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5h6M5 2l3 3-3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
+            'Start here' +
+          '</div>' +
+          '<div class="hero-title">Working in Sigma</div>' +
+          '<div class="hero-sub">Track 1 &nbsp;&middot;&nbsp; 16 lessons &nbsp;&middot;&nbsp; ~55 min &nbsp;&middot;&nbsp; Most people finish their first track in one session.</div>' +
+        '</div>' +
+        '<a href="sigma-t1-l01.html" class="hero-cta-btn">Begin ' + arrowSvg + '</a>';
+    } else {
+      // Return visit
+      var info = TRACKS[activeTrack];
+      var done = (progress[activeTrack] || []).length;
+      var pct = info.total > 0 ? Math.round((done / info.total) * 100) : 0;
+      var minsLeft = Math.round((info.total - done) * 3.5);
+
+      hero.innerHTML =
+        '<div class="hero-left">' +
+          '<div class="hero-state-label hero-label-return">' +
+            '<svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M1.5 5a3.5 3.5 0 1 1 1 2.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M1.5 3v2h2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
+            'Welcome back' +
+          '</div>' +
+          '<div class="hero-title">' + info.name + '</div>' +
+          '<div class="hero-prog-row">' +
+            '<div class="hero-prog-bar"><div class="hero-prog-fill" style="width:' + pct + '%"></div></div>' +
+            '<span class="hero-prog-label">' + done + ' of ' + info.total + ' lessons done</span>' +
+            (minsLeft > 0 ? '<span class="hero-prog-label">&nbsp;&middot;&nbsp; ~' + minsLeft + ' min left</span>' : '<span class="hero-prog-label" style="color:#16a34a">&nbsp;&middot;&nbsp; ✓ Track complete</span>') +
+          '</div>' +
+        '</div>' +
+        '<a href="' + lastLesson + '" class="hero-cta-btn">Continue ' + arrowSvg + '</a>';
+    }
+  }
+
+  // ── Stats strip ──
+  var stats = document.getElementById('hub-stats');
+  if (stats) {
+    var parts = [];
+    if (tracksComplete > 0) {
+      parts.push('<span style="color:#16a34a;font-weight:700">✓</span><span><span class="hub-stat-num">' + tracksComplete + '</span> of 5 tracks done</span>');
+    } else if (tracksStarted > 0) {
+      parts.push('<span><span class="hub-stat-num">' + tracksStarted + '</span> of 5 tracks started</span>');
+    } else {
+      parts.push('<span>0 of 5 tracks started</span>');
+    }
+    if (totalDone > 0) {
+      parts.push('<span class="hub-stat-div"></span>');
+      parts.push('<span><span class="hub-stat-num">' + totalDone + '</span> lessons complete</span>');
+      parts.push('<span class="hub-stat-div"></span>');
+      parts.push('<span><span class="hub-stat-num">~' + minsInvested + ' min</span> invested</span>');
+    }
+    parts.push('<span style="flex:1"></span>');
+    parts.push('<a href="sigma-personas.html" style="font-size:12px;color:var(--p9);font-weight:600;text-decoration:none;flex-shrink:0">View paths by role →</a>');
+    stats.innerHTML = parts.join('');
+  }
+})();
+</script>
 </body>
 </html>
