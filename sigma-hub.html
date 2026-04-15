@@ -36,22 +36,25 @@ body { font-family:var(--font); color:var(--t5); background:#fff; font-size:14px
 .rail-divider { height:1px; background:var(--s4); margin:6px 4px; }
 .beta-badge { font-size:9px; font-weight:700; letter-spacing:.06em; background:var(--p3); color:var(--p9); border-radius:999px; padding:1px 5px; }
 /* Main */
-.main { flex:1; overflow-y:auto; background:var(--s1); padding:32px 40px 60px; }
+.main { flex:1; overflow-y:auto; background:var(--s1); padding:20px 40px 60px; }
 /* Hub */
-.hub-header { margin-bottom:32px; }
-.hub-headline { font-size:22px; font-weight:700; color:var(--t5); margin-bottom:4px; }
-.hub-subtitle { font-size:14px; color:var(--t3); margin-bottom:16px; }
+.hub-header { margin-bottom:20px; }
+.hub-subtitle { font-size:13px; color:var(--t3); margin-bottom:10px; }
 .hub-overall { display:flex; align-items:center; gap:12px; font-size:13px; color:var(--t4); }
-.hub-prog-track { flex:1; max-width:200px; height:5px; background:var(--s4); border-radius:999px; overflow:hidden; }
+.hub-prog-track { flex:1; max-width:200px; height:4px; background:var(--s4); border-radius:999px; overflow:hidden; }
 .hub-prog-fill { height:100%; background:var(--success); border-radius:999px; }
-.hub-section { margin-bottom:40px; }
-.hub-section-label { font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--t3); margin-bottom:14px; display:flex; align-items:center; gap:8px; }
+.hub-section { margin-bottom:24px; }
+.hub-section-label { font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--t3); margin-bottom:10px; display:flex; align-items:center; gap:8px; }
 .hub-section-label::after { content:''; flex:1; height:1px; background:var(--s4); }
-.track-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
-.track-card { background:#fff; border:1px solid var(--s5); border-radius:8px; padding:20px; display:flex; flex-direction:column; gap:10px; cursor:pointer; transition:border-color .15s, box-shadow .15s; text-decoration:none; color:inherit; }
+.track-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+.track-card { background:#fff; border:1px solid var(--s5); border-radius:8px; padding:14px; display:flex; flex-direction:column; gap:6px; cursor:pointer; transition:border-color .15s, box-shadow .15s; text-decoration:none; color:inherit; }
 .track-card:hover { border-color:var(--p6); box-shadow:var(--shadow-low); }
 .track-card.tbd { opacity:.55; cursor:default; pointer-events:none; }
-.track-icon { width:38px; height:38px; border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.track-icon { width:32px; height:32px; border-radius:7px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.card-top-row { display:flex; align-items:center; justify-content:space-between; margin-bottom:2px; }
+.level-badge { font-size:10px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; padding:2px 7px; border-radius:999px; }
+.lb-gs { background:var(--p2); color:var(--p9); }
+.lb-advanced { background:#f3eaff; color:#6b3fa0; }
 .ti-blue { background:var(--p2); color:var(--p9); }
 .ti-green { background:#edfbf0; color:#2d8a42; }
 .ti-orange { background:#fff6ea; color:#c16a00; }
@@ -117,9 +120,7 @@ body { font-family:var(--font); color:var(--t5); background:#fff; font-size:14px
 
   <main class="main">
     <div class="hub-header">
-      <h1 class="hub-headline">Getting Started</h1>
-      <p class="hub-subtitle">Complete the getting started tracks, then explore deep dives at your own pace.</p>
-      <p style="margin-bottom:16px"><a href="sigma-personas.html" style="font-size:13px;color:var(--p9);font-weight:600;text-decoration:none;">View learning paths by role →</a></p>
+      <p class="hub-subtitle">Complete these tracks to get up and running, then explore deep dives. <a href="sigma-personas.html" style="color:var(--p9);font-weight:600;text-decoration:none;">View paths by role →</a></p>
       <div class="hub-overall">
         <span style="color:var(--t3)">0 of 5 tracks complete</span>
         <div class="hub-prog-track"><div class="hub-prog-fill" style="width:0%"></div></div>
@@ -132,8 +133,11 @@ body { font-family:var(--font); color:var(--t5); background:#fff; font-size:14px
       <div class="track-grid">
 
         <a href="sigma-t1-l01.html" class="track-card">
-          <div class="track-icon ti-blue">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="3" width="16" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M2 7h16" stroke="currentColor" stroke-width="1.5"/><path d="M7 7v10" stroke="currentColor" stroke-width="1.5"/></svg>
+          <div class="card-top-row">
+            <div class="track-icon ti-blue">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="3" width="16" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M2 7h16" stroke="currentColor" stroke-width="1.5"/><path d="M7 7v10" stroke="currentColor" stroke-width="1.5"/></svg>
+            </div>
+            <span class="level-badge lb-gs">Foundational</span>
           </div>
           <div class="track-card-title">Working in Sigma</div>
           <div class="track-card-desc">Start as a View user, then build formulas, add charts, and extend pre-built content.</div>
@@ -143,8 +147,11 @@ body { font-family:var(--font); color:var(--t5); background:#fff; font-size:14px
         </a>
 
         <a href="sigma-t2-l01.html" class="track-card">
-          <div class="track-icon ti-green">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 17V5l7-3 7 3v12" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M7 17v-5h6v5" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M10 9.5v.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <div class="card-top-row">
+            <div class="track-icon ti-green">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 17V5l7-3 7 3v12" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M7 17v-5h6v5" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M10 9.5v.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            </div>
+            <span class="level-badge lb-gs">Foundational</span>
           </div>
           <div class="track-card-title">Build from Scratch</div>
           <div class="track-card-desc">Connect to your warehouse, build a data table, create calculations, and publish a dashboard — all from a blank canvas.</div>
@@ -154,8 +161,11 @@ body { font-family:var(--font); color:var(--t5); background:#fff; font-size:14px
         </a>
 
         <a href="sigma-t3-l01.html" class="track-card">
-          <div class="track-icon ti-orange">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><circle cx="10" cy="10" r="2.5" stroke="currentColor" stroke-width="1.5"/><path d="M10 3v1.5M10 15.5V17M3 10h1.5M15.5 10H17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <div class="card-top-row">
+            <div class="track-icon ti-orange">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><circle cx="10" cy="10" r="2.5" stroke="currentColor" stroke-width="1.5"/><path d="M10 3v1.5M10 15.5V17M3 10h1.5M15.5 10H17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </div>
+            <span class="level-badge lb-gs">Foundational</span>
           </div>
           <div class="track-card-title">Admin Setup</div>
           <div class="track-card-desc">Connect your warehouse, configure user licenses, set up AI features, and establish your organization's data governance.</div>
@@ -173,8 +183,11 @@ body { font-family:var(--font); color:var(--t5); background:#fff; font-size:14px
       <div class="track-grid">
 
         <a href="sigma-t2-l09.html" class="track-card">
-          <div class="track-icon ti-purple">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2l1.5 5H17l-4.5 3 1.5 5L10 12.5 6 15l1.5-5L3 7h5.5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+          <div class="card-top-row">
+            <div class="track-icon ti-purple">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2l1.5 5H17l-4.5 3 1.5 5L10 12.5 6 15l1.5-5L3 7h5.5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+            </div>
+            <span class="level-badge lb-advanced">Advanced</span>
           </div>
           <div class="track-card-title">Build with AI</div>
           <div class="track-card-desc">Go deeper on Sigma Assistant and Sigma Agents — use natural language to build analyses, automate workflows, and explore AI-powered features.</div>
@@ -184,8 +197,11 @@ body { font-family:var(--font); color:var(--t5); background:#fff; font-size:14px
         </a>
 
         <a href="sigma-dd2-l01.html" class="track-card">
-          <div class="track-icon ti-teal">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="4" width="16" height="12" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M7 9l-2 2 2 2M13 9l2 2-2 2M10 8l-1 4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div class="card-top-row">
+            <div class="track-icon ti-teal">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="4" width="16" height="12" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M7 9l-2 2 2 2M13 9l2 2-2 2M10 8l-1 4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <span class="level-badge lb-advanced">Advanced</span>
           </div>
           <div class="track-card-title">Embedding</div>
           <div class="track-card-desc">Embed Sigma workbooks into your own product using secure JWT tokens, user attributes, and customization options.</div>
