@@ -155,10 +155,16 @@ body{font-family:var(--font);color:var(--t5);background:#fff;font-size:14px;line
           <span class="video-duration">Browse connections · Add table · Canvas overview</span>
         </div>
 
+
+<div class="callout-blue" style="display:flex;align-items:flex-start;gap:10px;margin-bottom:24px">
+  <svg width="15" height="15" viewBox="0 0 15 15" fill="none" style="flex-shrink:0;margin-top:2px"><path d="M7.5 1.5l1.1 3.7H12L9 7.4l1.1 3.7-2.6-1.9-2.6 1.9L6 7.4 3 5.2h3.4z" stroke="#0059eb" stroke-width="1.3" stroke-linejoin="round"/></svg>
+  <div><strong>Try with Sigma Assistant —</strong> Connect to the BIG_BUYS_POS table and show me a summary of total revenue by brand</div>
+</div>
         <div class="step-section">
           <div class="step-label">Step 1</div>
           <h2 class="step-title">Create a new workbook</h2>
           <div class="step-body">
+            <div class="workbook-context" style="background:#f0fdf4;border:1px solid #bbf7d0;border-left:3px solid #16a34a;border-radius:4px;padding:10px 14px;font-size:13px;color:#374151;margin-bottom:16px;line-height:1.5"><strong>🗂 Big Buys Sales Dashboard</strong> — Starting fresh — connect to the <strong>BIG_BUYS_POS</strong> retail sales table. By the end of this lesson you'll have the raw data loaded on a workbook canvas.</div>
             <p>From the left rail, click <strong>Create new → Workbook</strong>. You'll land on a blank canvas ready for your first element.</p>
           </div>
         </div>
@@ -175,7 +181,7 @@ body{font-family:var(--font);color:var(--t5);background:#fff;font-size:14px;line
           <div class="step-label">Step 3</div>
           <h2 class="step-title">Add a table to the canvas</h2>
           <div class="step-body">
-            <p>Expand the schema, find a table (e.g., <strong>PLUGS_ELECTRONICS.PUBLIC.ORDERS</strong>), and click it to add it as a table element on the canvas. Sigma fetches a preview immediately — no waiting for a query to run.</p>
+            <p>Expand the schema, find the <strong>BIG_BUYS_POS</strong> table under <strong>BIG_BUYS &gt; BIG_BUYS</strong>, and click it to add it as a table element on the canvas. Sigma fetches a preview immediately — no waiting for a query to run.</p>
           </div>
         </div>
 
@@ -187,7 +193,6 @@ body{font-family:var(--font);color:var(--t5);background:#fff;font-size:14px;line
           </div>
           <div class="callout"><strong>How Sigma queries your data:</strong> Sigma never moves data — it generates SQL and sends it to your warehouse. The rows you see are a live preview; Sigma fetches pages of data as you scroll.</div>
           <div class="callout"><strong>Ways to add data to a workbook:</strong> Browse connections (tables, views), write custom SQL in the SQL editor, upload a CSV, or add a second source later from the canvas. This lesson covers browsing — the next lesson goes deeper on all options.</div>
-          <div class="callout-blue"><strong>Build with Sigma Assistant —</strong> Open the Sigma Assistant panel (top right) and type "Show me a summary of this table" — it will generate a grouped summary instantly.</div>
         </div>
         <div class="docs-links">
           <div class="docs-links-label">Sigma Documentation</div>

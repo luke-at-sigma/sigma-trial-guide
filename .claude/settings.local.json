@@ -54,7 +54,15 @@
       "Bash(git add:*)",
       "Bash(git commit -m ':*)",
       "Bash(git push:*)",
-      "Bash(gh pr create --title 'Show full step instructions in workbook PIP panel' --body ':*)"
+      "Bash(gh pr create --title 'Show full step instructions in workbook PIP panel' --body ':*)",
+      "Bash(git merge:*)",
+      "Bash(git stash:*)",
+      "Bash(git pull:*)",
+      "Bash(grep -l 'class=\"docs-links\"' /Users/luke.stanke/Claude/free-trial-flow/sigma-t*.html /Users/luke.stanke/Claude/free-trial-flow/sigma-dd*.html)",
+      "Bash(grep -rl \"55 min\" *.html *.js)",
+      "Bash(xargs sed:*)",
+      "Bash(grep -r \"55 min\" *.html *.js)",
+      "Bash(python3)"
     ]
   }
 }

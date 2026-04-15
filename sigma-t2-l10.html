@@ -156,10 +156,16 @@ body{font-family:var(--font);color:var(--t5);background:#fff;font-size:14px;line
           <span class="video-duration">Connection types · SQL editor · Join sources</span>
         </div>
 
+
+<div class="callout-blue" style="display:flex;align-items:flex-start;gap:10px;margin-bottom:24px">
+  <svg width="15" height="15" viewBox="0 0 15 15" fill="none" style="flex-shrink:0;margin-top:2px"><path d="M7.5 1.5l1.1 3.7H12L9 7.4l1.1 3.7-2.6-1.9-2.6 1.9L6 7.4 3 5.2h3.4z" stroke="#0059eb" stroke-width="1.3" stroke-linejoin="round"/></svg>
+  <div><strong>Try with Sigma Assistant —</strong> Write SQL that calculates total revenue (PRICE * QUANTITY) grouped by STORE_REGION and BRAND</div>
+</div>
         <div class="step-section">
           <div class="step-label">Step 1</div>
           <h2 class="step-title">Ways to add data to a workbook</h2>
           <div class="step-body">
+            <div class="workbook-context" style="background:#f0fdf4;border:1px solid #bbf7d0;border-left:3px solid #16a34a;border-radius:4px;padding:10px 14px;font-size:13px;color:#374151;margin-bottom:16px;line-height:1.5"><strong>🗂 Big Buys Sales Dashboard</strong> — Workbook has BIG_BUYS_POS loaded. This lesson adds a calculated <strong>REVENUE</strong> column (PRICE × QUANTITY) using custom SQL and explores joining a second source.</div>
             <p>Sigma supports four main ways to bring data into a workbook:</p>
             <ul>
               <li><strong>Browse connections</strong> — navigate the schema tree and click a table or view</li>
@@ -195,7 +201,6 @@ body{font-family:var(--font);color:var(--t5);background:#fff;font-size:14px;line
             <p>Open the column menu on a table element and select <strong>Join</strong>. Choose the second source and specify the join key (e.g., <code>order_id</code>). Sigma supports inner, left, right, and full outer joins. The joined columns appear as new columns in the element — no SQL required.</p>
           </div>
           <div class="callout"><strong>Joins are non-destructive:</strong> Sigma tracks the join in the element's source configuration. You can remove or edit it at any time without rewriting anything.</div>
-          <div class="callout-blue"><strong>Build with Sigma Assistant —</strong> In the SQL editor, click the AI icon and type "Write a query that shows monthly revenue by product category for the last 6 months" — Sigma writes and explains the full SQL.</div>
         </div>
         <div class="docs-links">
           <div class="docs-links-label">Sigma Documentation</div>

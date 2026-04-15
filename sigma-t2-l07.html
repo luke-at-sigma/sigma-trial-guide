@@ -155,10 +155,16 @@ body{font-family:var(--font);color:var(--t5);background:#fff;font-size:14px;line
           <span class="video-duration">What is linking · Create · Add columns · Writeback</span>
         </div>
 
+
+<div class="callout-blue" style="display:flex;align-items:flex-start;gap:10px;margin-bottom:24px">
+  <svg width="15" height="15" viewBox="0 0 15 15" fill="none" style="flex-shrink:0;margin-top:2px"><path d="M7.5 1.5l1.1 3.7H12L9 7.4l1.1 3.7-2.6-1.9-2.6 1.9L6 7.4 3 5.2h3.4z" stroke="#0059eb" stroke-width="1.3" stroke-linejoin="round"/></svg>
+  <div><strong>Try with Sigma Assistant —</strong> Create a linked input table from the stores summary with a Status and Notes column</div>
+</div>
         <div class="step-section">
           <div class="step-label">Step 1</div>
           <h2 class="step-title">Standalone vs. linked Input Tables</h2>
           <div class="step-body">
+            <div class="workbook-context" style="background:#f0fdf4;border:1px solid #bbf7d0;border-left:3px solid #16a34a;border-radius:4px;padding:10px 14px;font-size:13px;color:#374151;margin-bottom:16px;line-height:1.5"><strong>🗂 Big Buys Sales Dashboard</strong> — Combo chart complete. This lesson adds a <strong>linked input table</strong> on the stores summary for Status and Notes writeback to the warehouse.</div>
             <p>Sigma supports two kinds of Input Tables:</p><ul><li><strong>Standalone</strong> — a blank grid where users manually enter data from scratch. Good for quick ad-hoc entry with no warehouse connection.</li><li><strong>Linked</strong> — connected to an existing warehouse table. Each row in the Input Table corresponds to a row in the source, and write columns push data back to the warehouse when users save.</li></ul><p>Linked Input Tables are the more powerful option for real business workflows — annotations, approval statuses, target values, and planning inputs that live alongside warehouse data.</p>
           </div>
         </div>
@@ -193,7 +199,6 @@ body{font-family:var(--font);color:var(--t5);background:#fff;font-size:14px;line
           <div class="step-body">
             <p>When a user edits a cell in a linked Input Table and clicks <strong>Save</strong>, Sigma writes the value back to a table in your warehouse — a special Sigma-managed writeback table or, in some configurations, a table you specify.</p><p>Key things to know:</p><ul><li>Changes are <strong>versioned</strong> — Sigma keeps the history of edits</li><li>Write access requires the user to have <strong>Can edit</strong> or higher permission on the workbook</li><li><strong>View users</strong> can see writeback data but cannot edit it unless explicitly granted input permission</li></ul>
           </div>
-          <div class="callout-blue"><strong>Build with Sigma Assistant —</strong> Open Sigma Assistant and type "Create an Input Table linked to the Orders table with a Status dropdown (options: Pending, Approved, Rejected) and a Notes text column" — it builds the linked structure and adds the columns.</div>
         </div>
         <div class="docs-links">
           <div class="docs-links-label">Sigma Documentation</div>
