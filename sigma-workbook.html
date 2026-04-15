@@ -628,7 +628,10 @@
     for (var i = 0; i < steps.length; i++) {
       var row = document.createElement('div');
       row.className = 'pip-step-row';
-      row.innerHTML = '<span class="pip-step-title">' + esc(steps[i].title) + '</span>';
+      row.innerHTML =
+        '<div class="pip-step-label-tag">' + esc(steps[i].label) + '</div>' +
+        '<div class="pip-step-title">' + esc(steps[i].title) + '</div>' +
+        (steps[i].bodyHTML ? '<div class="pip-step-body">' + steps[i].bodyHTML + '</div>' : '');
       list.appendChild(row);
     }
 

@@ -221,7 +221,20 @@
         var key = labelEl.textContent.trim() + '|' + titleEl.textContent.trim();
         if (seen.indexOf(key) === -1) {
           seen.push(key);
-          steps.push({ label: labelEl.textContent.trim(), title: titleEl.textContent.trim() });
+          // Extract body text only — strip callouts and action buttons
+          var bodyEl = stepSections[i].querySelector('.step-body');
+          var bodyHTML = '';
+          if (bodyEl) {
+            var clone = bodyEl.cloneNode(true);
+            var toRemove = clone.querySelectorAll(
+              '.callout, .callout-blue, .callout-green, .callout-warn, .try-btn, .callout-box'
+            );
+            for (var r = 0; r < toRemove.length; r++) {
+              toRemove[r].parentNode.removeChild(toRemove[r]);
+            }
+            bodyHTML = clone.innerHTML.trim();
+          }
+          steps.push({ label: labelEl.textContent.trim(), title: titleEl.textContent.trim(), bodyHTML: bodyHTML });
         }
       }
     }
