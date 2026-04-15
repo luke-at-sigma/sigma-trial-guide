@@ -588,7 +588,7 @@
   }
 
   function showPlaceholder() {
-    el('pip-track-label').textContent = 'Free Trial Guide';
+    el('pip-track-label').textContent = 'Getting Started';
     el('pip-lesson-title').textContent = 'Select a lesson to begin';
     el('pip-desc').textContent = 'Go to a lesson page and click the video placeholder to load the guide here.';
     el('pip-video-label').textContent = 'No lesson loaded';
@@ -608,12 +608,12 @@
     el('pip-video-sub').textContent = d.videoDuration || '';
 
     /* Track label + lesson title + description */
-    el('pip-track-label').textContent = d.trackLabel || 'Free Trial Guide';
+    el('pip-track-label').textContent = d.trackLabel || 'Getting Started';
     el('pip-lesson-title').textContent = d.title || '';
     el('pip-desc').textContent = d.subtitle || '';
 
     /* Minimized info row */
-    el('pip-mini-track').textContent = d.trackLabel || 'Free Trial Guide';
+    el('pip-mini-track').textContent = d.trackLabel || 'Getting Started';
     el('pip-mini-title').textContent = d.title || '';
 
     /* Counter */
