@@ -404,6 +404,8 @@
           startEl.style.color = '';
         } else if (done >= total) {
           startEl.innerHTML = '<span style="color:#16a34a">✓ Completed</span>';
+          // Hide fully-completed cards from the carousel
+          card.style.display = 'none';
         } else {
           startEl.textContent = 'Continue →';
           startEl.style.color = color;
