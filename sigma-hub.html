@@ -342,7 +342,7 @@ body { font-family:var(--font); color:var(--t5); background:#fff; font-size:14px
             (minsLeft > 0 ? '<span class="hero-prog-label">&nbsp;&middot;&nbsp; ~' + minsLeft + ' min left</span>' : '<span class="hero-prog-label" style="color:#16a34a">&nbsp;&middot;&nbsp; ✓ Track complete</span>') +
           '</div>' +
         '</div>' +
-        '<a href="' + lastLesson + '" class="hero-cta-btn">Continue ' + arrowSvg + '</a>';
+        '<a href="' + (lastLesson.indexOf('?') === -1 ? lastLesson + '?from=workbook' : lastLesson) + '" class="hero-cta-btn">Continue ' + arrowSvg + '</a>';
     }
   }
 
