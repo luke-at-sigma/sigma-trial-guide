@@ -528,6 +528,12 @@
       <p class="pip-desc" id="pip-desc"></p>
     </div>
 
+    <!-- Sigma Assistant prompt -->
+    <div class="pip-assistant-wrap" id="pip-assistant-wrap" style="display:none;margin:0 16px 16px;background:#edf3fe;border:1px solid #c7d9fb;border-left:3px solid #0059eb;border-radius:4px;padding:10px 12px">
+      <div style="font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#0059eb;margin-bottom:5px">Try with Sigma Assistant</div>
+      <div id="pip-assistant-prompt" style="font-size:13px;color:#374151;line-height:1.5"></div>
+    </div>
+
     <!-- Step list -->
     <div class="pip-content">
       <div class="pip-steps-label">In this lesson</div>
@@ -620,6 +626,16 @@
     var num = d.num || 1;
     var total = d.total || 1;
     el('pip-counter').textContent = num + ' of ' + total;
+
+    /* Sigma Assistant prompt */
+    var assistWrap = el('pip-assistant-wrap');
+    var assistText = el('pip-assistant-prompt');
+    if (d.assistantPrompt) {
+      assistText.textContent = d.assistantPrompt;
+      assistWrap.style.display = 'block';
+    } else {
+      assistWrap.style.display = 'none';
+    }
 
     /* Step list */
     var list = el('pip-step-list');

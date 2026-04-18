@@ -239,6 +239,25 @@
       }
     }
 
+    // Get Sigma Assistant prompt (callout-blue right after video placeholder)
+    var assistantPrompt = '';
+    var videoPH = document.querySelector('.video-placeholder');
+    if (videoPH) {
+      var sibling = videoPH.nextElementSibling;
+      while (sibling) {
+        if (sibling.classList && sibling.classList.contains('callout-blue')) {
+          // Extract just the prompt text after the "Try with Sigma Assistant —" strong tag
+          var promptDiv = sibling.querySelector('div') || sibling;
+          var txt = promptDiv.textContent || sibling.textContent;
+          // Strip the label prefix
+          assistantPrompt = txt.replace(/Try with Sigma Assistant\s*[—–-]+\s*/i, '').trim();
+          break;
+        }
+        if (sibling.classList && sibling.classList.contains('step-section')) break;
+        sibling = sibling.nextElementSibling;
+      }
+    }
+
     // Get video info
     var vidLabelEl = document.querySelector('.video-label');
     var vidDurEl = document.querySelector('.video-duration');
@@ -272,6 +291,7 @@
       subtitle: (document.querySelector('.lesson-subtitle') || {}).textContent || '',
       videoLabel: vidLabelEl ? vidLabelEl.textContent : '',
       videoDuration: vidDurEl ? vidDurEl.textContent : '',
+      assistantPrompt: assistantPrompt,
       steps: steps,
       // Append ?from=workbook so clicking Prev/Next in PIP auto-relaunches workbook
       prevHref: prevHref ? prevHref + '?from=workbook' : null,
